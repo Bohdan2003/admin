@@ -1,0 +1,44 @@
+@import "../../style/vars";
+
+.login{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    &__form{
+        width: 300px;
+    }
+    &__name,
+    &__password{
+        width: 100%;
+        display: block;
+        font-size: 20px;
+        padding: 10px;
+        border: 1px solid $cian;
+        border-radius: 4px;
+        &::placeholder{
+            opacity: .5;
+        }
+    }
+    &__name-wrapper{
+        margin-bottom: 8px;
+    }
+    &__password-wrapper{
+        margin-bottom: 12px;
+    }
+    &__error{
+        padding-top: 4px;
+        color: #C79BFF;       
+    }
+    &__btn{
+        @extend %btn;
+        padding: 10px;
+        border: 1px solid $cian;
+        border-radius: 4px;
+        margin-right: 20px;
+    }
+    &__box{
+        display: flex;
+    }
+    
+}

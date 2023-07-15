@@ -1,0 +1,36 @@
+.img{
+    &__small{
+        object-fit: cover;
+        object-position: center;
+        border-radius: 5px;
+        width: 60px;
+        height: 60px;
+    }
+    &__big{
+        transition: all .5s;
+        opacity: 0;
+        pointer-events: none;
+        background: rgba(221, 249, 240, 0.05);
+        backdrop-filter: blur(2.5px);
+        margin: 0;
+        position: fixed;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;  
+        display: grid;  
+        place-items: center;
+        &--visible{
+            opacity: 1;
+            pointer-events: fill;
+        }
+        img{
+            transition: all .5s;
+            height: 100vh;
+            width: 80vw;
+        }
+    }
+}
+
+

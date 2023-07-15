@@ -1,0 +1,112 @@
+@import "../../style/vars";
+
+.store{
+    padding-top: 16px;
+    &__top{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 60px;
+    }
+    &__box{
+        display: flex;
+        align-items: center
+    }
+    &__btn-filter{
+        @extend %btn-with-img;
+        margin-right: 10px;
+        transform: translateY(-1px);
+        &::before{
+            top: 4px;
+            background-image: url('../../assets/filter.svg');
+        }
+    }
+    &__btn-clear{
+        @extend %btn;
+        transition: all .5s;
+        opacity: 0;
+        pointer-events: none;
+        margin-right: 32px;
+        font-size: 14px;
+        padding: 6px 12px;
+        color: $cian;
+    }
+    &__btn-clear--visible{
+        opacity: 1;
+        pointer-events: fill;
+    }
+    &__input-wrapper{
+        position: relative;
+        &::before{
+            content: '';
+            position: absolute;
+            left: 6px;
+            width: 24px;
+            height: 24px;
+            top: 4px;
+            background-image: url('../../assets/search.svg');
+        }   
+    }
+    &__input{
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        font-size: 14px;
+        padding: 6px 12px 6px 40px;
+        width: 400px;
+    }
+    &__cart{
+        @extend %btn-with-img;
+        &::before{
+            top: 4px;
+            background-image: url('../../assets/cart.svg');
+        }
+    }
+    table{
+        border-collapse: separate;
+        border-spacing: 0 8px;
+        width: 100%;
+        text-align: left;
+    }
+    tbody{
+        border-spacing: 8px;
+    }
+    tbody tr{
+        position: relative;
+        &::after{
+            content: '';
+            position: absolute;
+            height: 1px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #E9E9E9;
+        }
+    }    
+    th,
+    td{
+        vertical-align: middle;
+        padding: 8px 20px;
+    }
+    th{
+        font-size: 14px;
+        opacity: .5;
+    }
+    td:nth-child(2){
+        max-width: 450px;
+    }
+    td:nth-child(7){
+        display: flex;
+    }
+    .img + .img{
+        margin-left: 10px;
+    }
+    &__btn-add,
+    &__btn-delete{
+        width: 24px;
+        @extend %btn;
+    }
+    &__btn-add--hidden,
+    &__btn-delete--hidden{
+        display: none;
+    }
+}

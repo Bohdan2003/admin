@@ -1,0 +1,70 @@
+@import "../../style/vars";
+
+.cart{
+    transition: all .5s;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(221, 249, 240, 0.05);
+    backdrop-filter: blur(2.5px);
+    &--visible{
+        opacity: 1;
+        pointer-events: fill;
+        .cart__content{
+            transform: translateX(0);
+        }
+    }
+    // &--visible body{
+    //     overflow: hidden;
+    // }
+    &__content{
+        transform: translateX(100%);
+        padding: 18px 100px 18px 24px;
+        width: 624px;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        background-color: $white;
+        border-left: 1px solid $mint;
+    }
+    &__top{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 24px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #E9E9E9;
+    }
+    &__title{
+        font-size: 24px;
+    }
+    &__btn-exit{
+        @extend %btn;
+    }
+    &__item{
+        list-style: none;
+        padding-bottom: 24px;
+        border-bottom: 1px solid #E9E9E9;
+    }
+    &__item + &__item{
+        margin-top: 20px;
+    }
+    &__images{
+        display: flex;
+        margin-bottom: 16px;
+    }
+    &__cod{
+        margin-bottom: 16px;
+    }
+    &__name{
+        margin-bottom: 16px;
+    }
+    .img + .img{
+        margin-left: 8px;
+    }
+}

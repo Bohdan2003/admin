@@ -1,0 +1,30 @@
+@import "./vars";
+
+*,
+body{
+    line-height: 19px;
+    @extend %poiret-400;
+}
+
+body{
+    &::-webkit-scrollbar {
+        padding-right: 10px;
+        width: 24px;               /* ширина всей полосы прокрутки */
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;        /* цвет зоны отслеживания */
+    }
+    &::-webkit-scrollbar-thumb {
+        border: 10px solid #fff;
+        background-color: $cian;    /* цвет бегунка */
+        border-radius: 20px;    /* отступ вокруг бегунка */
+    }
+}
+
+.container{
+    height: 200vh;
+    max-width: 1760px;
+    padding-right: 20px;
+    padding-left: 130px;
+    margin: 0 auto;
+}
