@@ -26,12 +26,18 @@ export const api = createApi({
     }),
     getStoreItems: builder.mutation({
       query: (filters = {}) => ({
-        url: "admin/product/",
+        url: "admin/shop_product/",
         method: "POST",
         body: JSON.stringify(filters)
       })
-    })
+    }),
+    getFilters: builder.query({
+      query: () => 'admin/filters/get/'
+    }),
+    getTegs: builder.query({
+      query: () => 'admin/teg/get/'
+    }),
   }),
 })
 
-export const { useLoginMutation, useGetStoreItemsMutation } = api
+export const { useLoginMutation, useGetStoreItemsMutation, useGetFiltersQuery } = api

@@ -7,6 +7,8 @@ export const Img = ({src}) => {
 
     const imgWrapperRef = useRef();
 
+    if(!src) return ;
+
     return (
         <div className="img">     
             <img className="img__small" 

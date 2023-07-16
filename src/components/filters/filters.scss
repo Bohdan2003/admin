@@ -1,0 +1,44 @@
+@import "../../style/vars";
+
+.filters{
+    display: none;
+    margin-bottom: 60px;
+    &--visible{
+        display: block;
+    }
+    &__category{
+        margin-bottom: 16px;
+    }
+    &__title{
+        margin-bottom: 12px;
+        font-size: 13px;
+        opacity: .5;
+    }
+    &__inputs{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    &__input{
+        display: block;
+        position: relative;
+        margin-right: 12px;
+    }
+    &__input:last-child{
+        margin-right: 0;
+    }
+    &__input input{
+        position: absolute;
+        opacity: 0;
+    }
+    &__span{
+        display: inline-block;
+        cursor: pointer;
+        border: 1px solid $mint;
+        padding: 12px;
+        border-radius: 8px;
+    }
+    &__span--selected{
+        cursor: auto;
+        border: 1px solid $cian;
+    }
+}

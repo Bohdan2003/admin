@@ -18,9 +18,6 @@
             transform: translateX(0);
         }
     }
-    // &--visible body{
-    //     overflow: hidden;
-    // }
     &__content{
         transform: translateX(100%);
         padding: 18px 100px 18px 24px;
@@ -47,14 +44,21 @@
         @extend %btn;
     }
     &__item{
+        position: relative;
         list-style: none;
         padding-bottom: 24px;
         border-bottom: 1px solid #E9E9E9;
     }
+    &__btn-delete{
+        position: absolute;
+        top: 0;
+        right: 0;
+        @extend %btn;
+    }
     &__item + &__item{
         margin-top: 20px;
     }
-    &__images{
+    .images{
         display: flex;
         margin-bottom: 16px;
     }

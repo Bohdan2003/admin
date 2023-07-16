@@ -1,0 +1,48 @@
+@import "../../style/vars";
+
+.filters-menu{
+    display: flex;
+    &__btn{
+        @extend %btn-with-img;
+        margin-right: 10px;
+        transform: translateY(-1px);
+        &::before{
+            top: 4px;
+            background-image: url('../../assets/filter.svg');
+        }
+    }
+    &__btn-clear{
+        @extend %btn;
+        transition: all .5s;
+        opacity: 0;
+        pointer-events: none;
+        margin-right: 32px;
+        font-size: 14px;
+        padding: 6px 12px;
+        color: $cian;
+    }
+    &__btn-clear--visible{
+        opacity: 1;
+        pointer-events: fill;
+    }
+    &__input-wrapper{
+        position: relative;
+        &::before{
+            content: '';
+            position: absolute;
+            left: 6px;
+            width: 24px;
+            height: 24px;
+            top: 4px;
+            background-image: url('../../assets/search.svg');
+        }   
+    }
+    &__input{
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        font-size: 14px;
+        padding: 6px 12px 6px 40px;
+        width: 400px;
+    }
+}

@@ -8,8 +8,14 @@
     &__form{
         width: 300px;
     }
-    &__name,
+    &__name{
+        margin-bottom: 8px;
+    }
     &__password{
+        margin-bottom: 12px;
+    }
+    &__name-input,
+    &__password-input{
         width: 100%;
         display: block;
         font-size: 20px;
@@ -19,12 +25,6 @@
         &::placeholder{
             opacity: .5;
         }
-    }
-    &__name-wrapper{
-        margin-bottom: 8px;
-    }
-    &__password-wrapper{
-        margin-bottom: 12px;
     }
     &__error{
         padding-top: 4px;

@@ -31,8 +31,8 @@ export const LoginPage = () => {
                 }}
             >
                 <Form className='login__form'>
-                    <div className="login__name-wrapper">
-                        <Field className="login__name" 
+                    <div className="login__name">
+                        <Field className="login__name-input" 
                                placeholder="Логин"
                                type="text"
                                name="username"/>
@@ -41,8 +41,8 @@ export const LoginPage = () => {
                                       component="div"/>
                     </div>
 
-                    <div className="login__password-wrapper">
-                        <Field className="login__password" 
+                    <div className="login__password">
+                        <Field className="login__password-input" 
                                placeholder="Пароль"
                                type="text" 
                                name="password"/>
