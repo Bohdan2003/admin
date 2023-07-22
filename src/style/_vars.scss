@@ -11,6 +11,11 @@ $gray: #D9D9D9;
     font-weight: 400;
 } 
 
+%subtitle{
+    font-size: 13px;
+    opacity: 0.5;
+}
+
 %btn{
     cursor: pointer;
     border: none;

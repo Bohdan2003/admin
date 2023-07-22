@@ -1,27 +1,50 @@
 @import "../../style/vars";
 
 .filters{
+    position: relative;
     display: none;
     margin-bottom: 60px;
     &--visible{
         display: block;
     }
-    &__category{
-        margin-bottom: 16px;
+    &__btn-mode{
+        @extend %btn;
+        font-size: 13px;
+        color: $cian;
+        position: absolute;
+        right: 0;
+        z-index: 2;
+    }
+    &__tab{
+        margin-bottom: 24px;
+    }
+    &__box{
+        height: 32px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        .filters__title{
+            padding-right: 10px;
+            margin-bottom: 0;
+        }
+        .filters__input-delete{
+            display: grid;
+            place-items: center;
+        }
     }
     &__title{
         margin-bottom: 12px;
-        font-size: 13px;
-        opacity: .5;
+        @extend %subtitle;
     }
     &__inputs{
         display: flex;
         flex-wrap: wrap;
     }
     &__input{
-        display: block;
+        display: flex;
         position: relative;
         margin-right: 12px;
+        margin-bottom: 16px;
     }
     &__input:last-child{
         margin-right: 0;
@@ -40,5 +63,20 @@
     &__span--selected{
         cursor: auto;
         border: 1px solid $cian;
+    }
+    &__input-delete{
+        @extend %btn;
+        padding: 0 6px;
+    }
+    &__tags{
+        display: flex;
+        flex-wrap: wrap;
+        .filters__tab{
+            margin-right: 80px;
+            width: 340px;
+        }
+        .filters__title{
+            margin-right: 0;
+        }        
     }
 }

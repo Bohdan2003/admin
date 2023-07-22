@@ -36,7 +36,7 @@ export const LoginPage = () => {
                                placeholder="Логин"
                                type="text"
                                name="username"/>
-                        <ErrorMessage className="login__error"  
+                        <ErrorMessage className="login__error error"  
                                       name="username" 
                                       component="div"/>
                     </div>
@@ -46,7 +46,7 @@ export const LoginPage = () => {
                                placeholder="Пароль"
                                type="text" 
                                name="password"/>
-                        <ErrorMessage className="login__error" 
+                        <ErrorMessage className="login__error error" 
                                       name="password" 
                                       component="div"/>
                     </div>
@@ -55,7 +55,7 @@ export const LoginPage = () => {
                         <button className="login__btn" type="submit" disabled={isLoading}>
                             <ArrowIcon/>
                         </button>
-                        <div className="login__error">{error.error}</div>
+                        <div className="login__error error">{error.error}</div>
                     </div>
                 </Form>
             </Formik>    

@@ -16,28 +16,90 @@ export const api = createApi({
       return headers;
     },
    }),
+  tagTypes: ['User', 'Filters'],
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (payload) => ({
-        url: "admin/token/",
-        method: "POST",
-        body: JSON.stringify(payload)
-      })
+        url: 'admin/token/',
+        method: 'POST',
+        body: payload
+      }),
+      invalidatesTags: ['User']
     }),
     getStoreItems: builder.mutation({
-      query: (filters = {}) => ({
-        url: "admin/shop_product/",
-        method: "POST",
-        body: JSON.stringify(filters)
-      })
+      query: (payload) => {
+        const filters = {};
+        if(payload.search !== '') filters.search = payload.search;
+        if(payload.category !== '') filters.category = payload.category;
+        
+        filters.tegs = []
+        let index = 0;        
+        for(let item of payload.tegs){
+          if(item?.length == 0 || item == null) continue;
+          filters.tegs[index] = [];
+
+          item.forEach(item => {
+              if(item?.name ) filters.tegs[index].push(item.name)       
+          })
+          index++;
+        }
+
+        return {
+          url: "admin/shop_product/",
+          method: "POST",
+          body: filters
+        }
+      },
+      providesTags: ['User']
     }),
     getFilters: builder.query({
-      query: () => 'admin/filters/get/'
+      query: () => 'admin/filters/get/',
+      providesTags: ['Filters']
+    }),
+    createFilter: builder.mutation({
+      query: (payload) => ({
+        url: '/admin/filters/create/',
+        method:'POST',
+        body: payload
+      }),
+      invalidatesTags: ['Filters']
+    }),
+    deleteFilter: builder.mutation({
+      query: (id) => ({
+        url: `/admin/filters/rud/${id}/`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['Filters']
     }),
     getTegs: builder.query({
-      query: () => 'admin/teg/get/'
+      query: (id) => `admin/teg/get?id=${id}`,
+      providesTags: ['Filters']
+    }),
+    createTeg: builder.mutation({
+      query: (payload) => ({
+        url: '/admin/teg/create/',
+        method:'POST',
+        body: payload
+      }),
+      invalidatesTags: ['Filters']
+    }),
+    deleteTeg: builder.mutation({
+      query: (id) => ({
+        url: `/admin/teg/rud/${id}/`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['Filters']
     }),
   }),
 })
 
-export const { useLoginMutation, useGetStoreItemsMutation, useGetFiltersQuery } = api
+export const { 
+  useLoginMutation, 
+  useGetStoreItemsMutation, 
+  useGetFiltersQuery, 
+  useCreateFilterMutation,
+  useDeleteFilterMutation, 
+  useGetTegsQuery,
+  useCreateTegMutation,
+  useDeleteTegMutation 
+} = api

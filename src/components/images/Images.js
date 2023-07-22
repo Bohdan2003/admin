@@ -1,4 +1,6 @@
-import { Img } from "./Img"
+import { Img } from "./Img";
+
+import "./images.scss";
 
 export const Images = ({img1, img2, img3}) => {
 

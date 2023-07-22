@@ -1,5 +1,8 @@
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { setActiveSection } from './menuSlice';
+import { clearFilters } from '../filters/filtersSlice';
+
 import { ReactComponent as StoreIcon } from "../../assets/store.svg";
 import { ReactComponent as StockIcon } from "../../assets/stock.svg";
 import { ReactComponent as ReportIcon } from "../../assets/report.svg";
@@ -8,8 +11,6 @@ import { ReactComponent as LogoutIcon } from "../../assets/logout.svg";
 import "./header.scss";
 
 const MenuItem = ({nameSection, Component}) => { 
-    // console.log('render');
-
     const dispatch = useDispatch()
     const activeSection = useSelector((state) => state.menu.activeSection)
 
@@ -25,6 +26,9 @@ const MenuItem = ({nameSection, Component}) => {
 };
 
 export const Header = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     return (
         <header className="header">
             <nav className="menu">
@@ -34,7 +38,13 @@ export const Header = () => {
                     <MenuItem nameSection="report" Component={<ReportIcon/>}/>
                 </ul>
             </nav>
-            <button className="header__btn"><LogoutIcon/></button>
+            <button className="header__btn"
+                    onClick={() => {
+                        localStorage.removeItem("token");
+                        dispatch(clearFilters({page: "store"}));
+                        navigate("/login");
+                    }}
+            ><LogoutIcon/></button>
         </header>
     )
 }

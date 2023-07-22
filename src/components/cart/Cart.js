@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useSelector } from "react-redux";
 import { showScroll } from "../../utils/helper";
 
@@ -6,7 +7,7 @@ import { CartItem } from "./CartItem";
 
 import "./cart.scss";
 
-export const Cart = ({cartRef}) => {
+export const Cart = memo(({cartRef}) => {
 
     const items = useSelector(state => state.cart.items);
 
@@ -39,4 +40,4 @@ export const Cart = ({cartRef}) => {
             </div>
         </section>
     )
-}
+})
