@@ -1,0 +1,15 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="shipment-remove 1" clip-path="url(#clip0_253_2781)">
+<g id="shipment-remove--shipping-parcel-shipment-remove-subtract">
+<path id="Vector" d="M12 1V7.76922" stroke="#569DAA" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M1 7.76855H23V21.307C23 21.7558 22.8217 22.1863 22.5043 22.5036C22.1869 22.821 21.7565 22.9993 21.3077 22.9993H2.6923C2.24348 22.9993 1.81303 22.821 1.49566 22.5036C1.1783 22.1863 1 21.7558 1 21.307V7.76855Z" stroke="#569DAA" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M1 7.76922L3.53846 2.87846C3.81212 2.32723 4.23089 1.86104 4.74974 1.53005C5.26858 1.19907 5.86784 1.01581 6.48307 1H17.5169C18.1466 1.00033 18.7637 1.17632 19.2988 1.50816C19.834 1.84001 20.2659 2.31456 20.5461 2.87846L23 7.76922" stroke="#569DAA" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M16.2308 15.3843H7.76929" stroke="#569DAA" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_253_2781">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>

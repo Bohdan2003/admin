@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    activeSection: "store",
+    // activeSection: "stock"
+    activeSection: "store"
 }
 
-export const menuSlice = createSlice({
-  name: 'menu',
+export const headerSlice = createSlice({
+  name: 'header',
   initialState,
   reducers: {
     setActiveSection: (state, action) => {
@@ -14,6 +15,6 @@ export const menuSlice = createSlice({
   },
 })
 
-export const { setActiveSection } = menuSlice.actions
+export const { setActiveSection } = headerSlice.actions
 
-export default menuSlice.reducer
+export default headerSlice.reducer

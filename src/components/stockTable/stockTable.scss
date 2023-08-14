@@ -1,0 +1,16 @@
+@import "../../style/vars";
+
+.stock-table{
+    @extend %table;
+    td:nth-child(9){
+        text-align: end;
+    }
+    &__btn-edit{
+        width: 24px;
+        @extend %btn;
+    }
+    &__btn-add--hidden,
+    &__btn-delete--hidden{
+        display: none;
+    }
+}

@@ -2,24 +2,16 @@
 
 *,
 body{
+    color: $black;
     font-size: 15px;
     line-height: 19px;
     @extend %poiret-400;
 }
 
 body{
-    &::-webkit-scrollbar {
-        padding-right: 10px;
-        width: 24px;               /* ширина всей полосы прокрутки */
-    }
-    &::-webkit-scrollbar-track {
-        background: transparent;        /* цвет зоны отслеживания */
-    }
-    &::-webkit-scrollbar-thumb {
-        border: 10px solid #fff;
-        background-color: $cian;    /* цвет бегунка */
-        border-radius: 20px;    /* отступ вокруг бегунка */
-    }
+    overflow-y: scroll;
+    margin-right: 22px;
+    @extend %custom-scroll;
 }
 
 .container{
@@ -31,5 +23,5 @@ body{
 }
 
 .error{
-    color: #C79BFF;  
+    color: $violet;  
 }

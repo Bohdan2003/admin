@@ -2,9 +2,8 @@
 
 .filters-add{
     height: 42px;
-    &--disable{
-        opacity: .5;
-        pointer-events: none;
+    &--disabled{
+        @extend %section--disabled;
     }
     &__btn{
         display: grid;

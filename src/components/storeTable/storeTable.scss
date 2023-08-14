@@ -1,0 +1,10 @@
+@import "../../style/vars";
+
+.store-table{  
+    @extend %table;
+    &__btn-add,
+    &__btn-delete{
+        width: 24px;
+        @extend %btn;
+    }
+}

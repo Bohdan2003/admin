@@ -1,15 +1,19 @@
-import { ReactComponent as ArrowIcon } from '../../assets/login-arrow.svg';
+import { setToken } from './loginSlice';
+import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
+import { store } from '../../store';   
+
+import { ReactComponent as ArrowIcon } from '../../assets/login-arrow.svg';
 
 import "./loginPage.scss";
 
 export const LoginPage = () => {
-
-    const [ login, { isLoading, error = { erorr: "" } } ] = useLoginMutation();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [ login, { isLoading, error = { erorr: "" } } ] = useLoginMutation();
 
     return (
         <section className="login">
@@ -24,10 +28,11 @@ export const LoginPage = () => {
                 onSubmit={(values) => {
                     login(values)
                         .then(payload => {
-                            localStorage.setItem("token", payload.data.access);
+                            console.log('answer', payload.data.access);
+                            dispatch(setToken(payload.data.access))
                             navigate('/');
                         })
-                        .catch(err => {console.log(err)})                
+                        .catch(err => {console.log(err)})              
                 }}
             >
                 <Form className='login__form'>

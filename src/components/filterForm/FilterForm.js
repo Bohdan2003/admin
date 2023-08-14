@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useCreateTegMutation } from "../../api";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 
@@ -8,9 +7,11 @@ import { ReactComponent as PlusIcon } from "../../assets/plus.svg";
 import { ReactComponent as SaveIcon } from "../../assets/save.svg";
 import { ReactComponent as CancleIcon } from "../../assets/delete.svg";
 
-export const TegAdd = ({firstItem = false, filterAddProps}) => {
-    const [ createTeg, { isLoading, isError, error } ] = useCreateTegMutation();
-    const [ visibleForm, setVisibleForm ] = useState(false)
+import "./filterForm.scss";
+
+export const FilterForm = ({fetch, firstItem = false, filterAddPayload}) => {
+    const [ createFilter, { isLoading, isError, error } ] = fetch;
+    const [ visibleForm, setVisibleForm ] = useState(false);
 
     useEffect(() => {
         setVisibleForm(firstItem);
@@ -19,7 +20,7 @@ export const TegAdd = ({firstItem = false, filterAddProps}) => {
     if(isError) return <Error error={error}/>
 
     return (
-        <div className={`filters-add ${isLoading ? 'filters-add--disable' : ''}`}>
+        <div className={`filters-add ${isLoading && 'filters-add--disabled'}`}>
             {
                 visibleForm
                 ?
@@ -27,14 +28,14 @@ export const TegAdd = ({firstItem = false, filterAddProps}) => {
                     initialValues={{ name: ''}}
                     validationSchema={yup.object({
                         name: yup.string()
-                            .required("Обязательое поле")
-                            .min(3, "Минимум 3 символа")
-                            .max(20, "Максимум 20 символов")
+                                    .required("Обязательое поле")
+                                    .min(3, "Минимум 3 символа")
+                                    .max(20, "Максимум 20 символов")
                     })}
                     onSubmit={(values, {resetForm}) => {
-                        createTeg({
+                        createFilter({
                             name: values.name,
-                            ...filterAddProps
+                            ...filterAddPayload
                         }).unwrap()
                             .then(() => {
                                 resetForm();
@@ -77,7 +78,6 @@ export const TegAdd = ({firstItem = false, filterAddProps}) => {
                     <PlusIcon/>
                 </button>
             }
-            
         </div>
     )
 }

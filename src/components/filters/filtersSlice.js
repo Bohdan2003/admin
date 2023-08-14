@@ -3,21 +3,28 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     store:{
         editMode: false,
-        selectedCategory: null,
-        selectedSubcategory: null,
-        params: {
-            tegs: [[]],
-            category: '',
-            search: ''
+        values: {
+            search: '',
+            category: null,
+            subcategory: null,
+            tegs: [[]]
         }
     },
     stock:{
-        params: {
-            tegs: [[]],
-            category: '',
-            search: ''
-        },
-        editMode: false
+        editMode: false,
+        values: {
+            search: '',
+            category: null,
+            subcategory: null,
+            tegs: [[]]
+        }
+    },
+    stockAdd:{
+        editMode: false,
+        values: {
+            category: null,
+            subcategory: null
+        }
     }
 }
 
@@ -26,39 +33,37 @@ export const filtersSlice = createSlice({
     initialState,
     reducers: {
         setSearch:(state, action) => {
-            state[action.payload.page].params.search = action.payload.value;
+            state[action.payload.page].values.search = action.payload.value;
         },
         changeEditMode:(state, action) => {
             const { page } = action.payload;
 
             state[page].editMode = !state[page].editMode
         },
-        setSelectedCategory:(state, action) => {
-            const { page, id } = action.payload;
-
-            state[page].selectedCategory = id;
-        },
-        setSelectedSubcategory:(state, action) => {
-            const { page, id } = action.payload;
-
-            state[page].selectedSubcategory = id;
-        },
         setCategory:(state, action) => {
-            state[action.payload.page].params.category = action.payload.category;
+            const { page, id } = action.payload;
+
+            state[page].values.category = id;
+        },
+        setSubcategory:(state, action) => {
+            const { page, id } = action.payload;
+
+            state[page].values.subcategory = id;
         },
         setTeg:(state, action) => {
             const { page, column, teg } = action.payload;
-
-            if(!state[page].params.tegs[column]) state[page].params.tegs[column] = [];
-            state[page].params.tegs[column] = [...state[page].params.tegs[column], teg];
+            const filters = state[page].values;
+            if(!filters.tegs[column]) filters.tegs[column] = [];
+            filters.tegs[column] = [...filters.tegs[column], teg];
         },
         deleteTeg:(state, action) => {
             const { column, page, id } = action.payload;
+            const filters = state[page].values;
 
-            state[page].params.tegs[column] = state[page].params.tegs[[column]].filter(item => item.id != id);
+            filters.tegs[column] = filters.tegs[[column]].filter(item => item.id != id);
         },
         clearTags:(state, action) => {
-            state[action.payload.page].params.tegs = [[]]
+            state[action.payload.page].values.tegs = [[]]
         },
         clearFilters:(state, action) => {
             const { page } = action.payload;
@@ -71,9 +76,8 @@ export const filtersSlice = createSlice({
 export const { 
     setSearch,
     changeEditMode,
-    setSelectedCategory,
-    setSelectedSubcategory,
     setCategory,
+    setSubcategory,
     setTeg,
     deleteTeg,
     clearTags,

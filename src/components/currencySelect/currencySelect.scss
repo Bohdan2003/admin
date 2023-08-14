@@ -1,0 +1,66 @@
+@import "../../style/vars";
+
+.currency-select{
+    width: 100%;
+    position: relative;
+    &__btn{
+        position: absolute;
+        top: 40px;
+        z-index: 1;
+    }
+    &__title{ 
+        cursor: pointer;
+        height: 27px;
+        transform: translateY(5%);
+        padding: 4px 34px 4px 0px;
+        position: relative;
+        &::after{
+            content: '';   
+            transition: all .5s;        
+            position: absolute;
+            width: 18px;
+            height: 10px;
+            background-image: url("../../assets/arrow-select.svg");
+            right: 4px;
+            top: 9px;
+        }
+    }
+    &__title--active::after{
+        transform: rotateX(180deg);
+    }
+    &__box{
+        width: inherit;
+        text-align: center;
+        transition: all .5s;
+        position: absolute;
+        z-index: 2;
+        overflow: hidden;
+        pointer-events: none;
+    }
+    &__box--disable{
+        pointer-events: auto;
+    }
+    &__list{
+        border: 1px solid $gray;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #fff;
+        transition: all .5s;
+        border-radius: 1px solid #000;
+    }
+    &__list--hidden{
+        transform: translateY(-200%);
+    }
+    &__item{
+        cursor: pointer;
+        margin-bottom: 10px;
+        list-style: none;
+    }
+    &__item:last-child{
+        margin-bottom: 0;
+    }
+    &__item--active{
+        color: $gray;
+        pointer-events: none;
+    }
+}

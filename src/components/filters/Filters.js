@@ -7,27 +7,48 @@ import {
 } from "../../api";
 import { 
     changeEditMode,
-    setSelectedCategory,
-    setSelectedSubcategory, 
-    setCategory, 
+    setCategory,
+    setSubcategory, 
     setTeg, 
     deleteTeg, 
     clearTags 
 } from "./filtersSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useCreateTegMutation, useCreateFilterMutation } from "../../api";
 
+import { Loading } from "../loading/Loading"
 import { Error } from "../error/Error";
 import { ReactComponent as BucketIcon } from "../../assets/bucket.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
-import { FilterAdd } from "./FilterAdd";
-import { TegAdd } from "./TegAdd";
-
+import { FilterForm } from "../filterForm/FilterForm";
 import "./filters.scss";
 
-const FiltersTab = memo(({page, data = [], title, selectedInput, handleChange, filterAddProps}) => { 
+const FilterAdd = ({firstItem, filterAddPayload}) => {
+    const fetch = useCreateFilterMutation();
+    return (
+        <FilterForm 
+            fetch={fetch}
+            firstItem={firstItem} 
+            filterAddPayload={filterAddPayload}
+        />
+    )
+}
+
+const TegAdd = ({firstItem, filterAddPayload}) => {
+    const fetch = useCreateTegMutation();
+    return (
+        <FilterForm 
+            fetch={fetch}
+            firstItem={firstItem} 
+            filterAddPayload={filterAddPayload}
+        />
+    )
+}
+
+const FiltersTab = memo(({page, data = [], title, selectedInput, handleChange, filterAddPayload}) => { 
     const dispatch = useDispatch();
-    const [ deleteFilter ] = useDeleteFilterMutation();
-    const { editMode, selectedCategory } = useSelector(state => state.filters[page]); 
+    const [ deleteFilter ] = useDeleteFilterMutation();   
+    const { editMode } = useSelector(state => state.filters[page]); 
     const firstItem = (data.length == 0);
     
     if(data.length <= 0 && !editMode) return;
@@ -57,13 +78,9 @@ const FiltersTab = memo(({page, data = [], title, selectedInput, handleChange, f
                                             onClick={() => {
                                                 deleteFilter(item.id).unwrap()
                                                     .then(() => {
-                                                        dispatch(setSelectedSubcategory({
+                                                        dispatch(setSubcategory({
                                                             page,
                                                             id: null
-                                                        }));
-                                                        dispatch(setCategory({
-                                                            page: 'store',
-                                                            category: selectedCategory
                                                         }));
                                                     })
                                                     .catch(e => {console.log(e);});
@@ -79,25 +96,29 @@ const FiltersTab = memo(({page, data = [], title, selectedInput, handleChange, f
                 } 
             </div>
             {
-                editMode 
-                ? <FilterAdd 
+                editMode && 
+                <FilterAdd
                     firstItem={firstItem} 
-                    filterAddProps={filterAddProps}
-                  />
-                : ''
+                    filterAddPayload={filterAddPayload}
+                />
             }
         </div>
     )
 })
 
-const FiltersTags = memo(({page, id}) => {
+const FiltersTags = memo(({page}) => {
     const dispatch = useDispatch();
-    const editMode = useSelector(state => state.filters[page].editMode);
-    const selectedCategory = useSelector(state => state.filters.store.params.category);
+    const { 
+        editMode,
+        values: {
+            subcategory,
+            tegs
+        }
+    } = useSelector(state => state.filters[page]);
 
+    const [ createTeg ] = useCreateTegMutation();
     const [ deleteTegOnServer ] = useDeleteTegMutation();
-    const { data, isLoading, isError, error } = useGetTegsQuery(id);
-    const arrOfSelectedTegs = useSelector(state => state.filters.store.params.tegs); 
+    const { data, isLoading, isError, error } = useGetTegsQuery(subcategory);
 
     if(isLoading) return;
     if(isError) return <Error error={error}/>;
@@ -125,8 +146,8 @@ const FiltersTags = memo(({page, id}) => {
                             {
                                 item.children.map(child => {
                                     let checked;
-                                    if(arrOfSelectedTegs[i]) {
-                                        checked = arrOfSelectedTegs[i].findIndex(elem => elem.id == child.id) > -1;
+                                    if(tegs[i]) {
+                                        checked = tegs[i].findIndex(elem => elem.id == child.id) > -1;
                                     } else {
                                         checked = false;
                                     }
@@ -178,36 +199,41 @@ const FiltersTags = memo(({page, id}) => {
                             } 
                         </div>
                         {
-                            editMode 
-                            ? <TegAdd filterAddProps={{
+                            editMode &&
+                            <TegAdd createTeg={createTeg} filterAddPayload={{
                                 level_teg: 2,
                                 parent_teg: item.id,
                                }}/>
-                            : ''
+                            
                         }
                     </div>)
                 )
             }
             {
-                editMode 
-                ? <TegAdd firstItem={true} filterAddProps={{
+                editMode &&
+                <TegAdd firstItem={true} filterAddPayload={{
                     level_teg: 1,
-                    parent_filter: selectedCategory,
+                    parent_filter: subcategory,
                 }}/>
-                : ''
+                
             }
         </div>
     )
 })
 
-export const Filters = memo(({page, filtersRef}) => {
+export const Filters = memo(({page = '', filtersRef = null, visible = false, hiddenTeg = false}) => {
     const dispatch = useDispatch();
-    const { editMode, selectedCategory, selectedSubcategory } = useSelector(state => state.filters[page]);
+    const { 
+        editMode, 
+        values: {
+            category, subcategory
+        }
+    } = useSelector(state => state.filters[page]);
 
     const { data: categoriesData, isLoading, isError, error } = useGetFiltersQuery();
 
     return (
-        <div className="filters" ref={filtersRef}>
+        <div className={`filters ${visible ? 'filters--visible' : ''}`} ref={filtersRef}>
             <button className="filters__btn-mode"
                     onClick={() => {dispatch(changeEditMode({page}))}}
             >
@@ -215,90 +241,71 @@ export const Filters = memo(({page, filtersRef}) => {
             </button>
             {
                 isLoading
-                ? <div>loading...</div>
+                ? <Loading/>
                 : isError 
                 ? <Error error={error}/>
                 : 
                 <FiltersTab page={page}
                             data={categoriesData}
                             title="Категория"
-                            selectedInput={selectedCategory}
-                            filterAddProps={{
+                            selectedInput={category}
+                            filterAddPayload={{
                                 level_filter: 1
                             }}
                             handleChange={item => {
-                                if(selectedCategory != item.id) {
-                                    dispatch(setSelectedCategory({
-                                        page,
-                                        id: item.id
-                                    }))        
-                                    dispatch(setSelectedSubcategory({
-                                        page,
-                                        id: null
-                                    }));                                     
+                                if(category != item.id) {
                                     dispatch(setCategory({
                                         page,
-                                        category: item.id
-                                    }));  
+                                        id: item.id
+                                    }))
                                 } else {
-                                    dispatch(setSelectedCategory({
+                                    dispatch(setCategory({
                                         page,
                                         id: null
                                     }))
-                                    dispatch(setSelectedSubcategory({
+                                }
+                                if(subcategory){
+                                    dispatch(setSubcategory({
                                         page,
                                         id: null
-                                    })); 
-                                    dispatch(setCategory({
-                                        page,
-                                        category: ''
-                                    })); 
+                                    }));        
                                 }
-                                dispatch(clearTags({page}));
-                                setSelectedSubcategory('');                     
+                                dispatch(clearTags({page}));                 
                             }}
                 />
             }
             {
-                selectedCategory
-                ? <FiltersTab page={page}
-                              data={categoriesData[categoriesData.findIndex(item => item.id == selectedCategory )].children}
-                              lavel={2}
-                              title="Подкатегория"
-                              selectedInput={selectedSubcategory}
-                              filterAddProps={{
+                category &&
+                <FiltersTab page={page}
+                            data={categoriesData[categoriesData.findIndex(item => item.id == category )].children}
+                            lavel={2}
+                            title="Подкатегория"
+                            selectedInput={subcategory}
+                            filterAddPayload={{
                                 level_filter: 2,
-                                parent_filter: selectedCategory
-                              }}
-                              handleChange={item => {
-                                    if(selectedSubcategory != item.id){
-                                        dispatch(setSelectedSubcategory({
-                                            page,
-                                            id: item.id
-                                        }));
-                                        dispatch(setCategory({
-                                            page: 'store',
-                                            category: item.id
-                                        })); 
-                                    } else {
-                                        dispatch(setSelectedSubcategory({
-                                            page,
-                                            id: null
-                                        }));
-                                        dispatch(setCategory({
-                                            page: 'store',
-                                            category: selectedCategory
-                                        }));
-                                    }
-                                    dispatch(clearTags({page}));
-                              }}
-                    />
-                : ''
+                                parent_filter: category
+                            }}
+                            handleChange={item => {
+                                if(subcategory != item.id){
+                                    dispatch(setSubcategory({
+                                        page,
+                                        id: item.id
+                                    }));
+                                } else {
+                                    dispatch(setSubcategory({
+                                        page,
+                                        id: null
+                                    }));
+                                }
+                                dispatch(clearTags({page}));
+                            }}
+                />
+               
             }
-            {
-                selectedSubcategory
-                ? <FiltersTags page={page} id={selectedSubcategory}/>
-                : ''
+            { 
+              subcategory && !hiddenTeg 
+              ? <FiltersTags page={page}/> 
+              : ''
             }           
         </div>
     )

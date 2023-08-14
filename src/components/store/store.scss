@@ -1,70 +1,23 @@
 @import "../../style/vars";
 
 .store{
+    &__top{
+        background-color: $white;
+        z-index: 3;
+        padding-bottom: 24px;
+        position: sticky;
+        top: 0;
+    }
     &__head{
-        padding: 16px 0 20px;
+        padding: 20px 0 20px;
         display: flex;
         justify-content: space-between;
     }
-    &__box{
-        display: flex;
-        align-items: center
-    } 
     &__cart{
         @extend %btn-with-img;
         &::before{
             top: 4px;
             background-image: url('../../assets/cart.svg');
         }
-    }
-    table{
-        border-collapse: separate;
-        border-spacing: 0 8px;
-        width: 100%;
-        text-align: left;
-    }
-    tbody{
-        border-spacing: 8px;
-    }
-    tbody tr{
-        min-height: 54px;
-        position: relative;
-        &::after{
-            content: '';
-            position: absolute;
-            height: 1px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #E9E9E9;
-        }
-    }    
-    th,
-    td{
-        min-height: 76px;
-        vertical-align: middle;
-        padding: 8px 20px;
-    }
-    th{
-        font-size: 13px;
-        opacity: .5;
-    }
-    td:nth-child(2){
-        max-width: 450px;
-    }
-    td:nth-child(7){
-        display: flex;
-    }
-    .img + .img{
-        margin-left: 10px;
-    }
-    &__btn-add,
-    &__btn-delete{
-        width: 24px;
-        @extend %btn;
-    }
-    &__btn-add--hidden,
-    &__btn-delete--hidden{
-        display: none;
     }
 }

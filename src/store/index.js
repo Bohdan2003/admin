@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { api } from '../api';                    
-import { redirect } from "react-router-dom";
-import menu from '../components/header/menuSlice';
+// import { redirect } from "react-router-dom";
+import login from '../components/pages/loginSlice';
+import header from '../components/header/headerSlice';
 import filters from '../components/filters/filtersSlice';
 import cart from '../components/cart/cartSlice';
+import stock from '../components/stock/stockSlice';
 
 // const handleErrorsMiddleware = (api) => (next) => async (action) => {
 //   if (action?.type.endsWith('rejected') && action?.payload?.status === 401) {
@@ -15,10 +17,12 @@ import cart from '../components/cart/cartSlice';
 
 export const store = configureStore({
   reducer: {
-    [api.reducerPath]: api.reducer,
-    menu,
+    login,
+    header,
     filters,
-    cart
+    cart,
+    stock,
+    [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

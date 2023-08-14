@@ -2,8 +2,8 @@
     font-family:'Inter-Regular';
     font-weight: 400;
     font-style: normal;
-    src: local('PoiretOne-Regular'),
-        url('../fonts/Inter-Regular.woff2') format('woff2'),
+    src: local('Inter-Regular'),
+        // url('../fonts/Inter-Regular.woff2') format('woff2'), // does not want to work
         url('../fonts/Inter-Regular.woff') format('woff');
     font-display: block;
 }

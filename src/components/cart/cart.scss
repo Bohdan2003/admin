@@ -21,7 +21,8 @@
     }
     &__content{
         transform: translateX(100%);
-        padding: 18px 100px 18px 24px;
+        padding: 18px 10px 18px 24px;
+        height: 100%;
         width: 624px;
         position: fixed;
         top: 0;
@@ -29,8 +30,11 @@
         right: 0;
         background-color: $white;
         border-left: 1px solid $mint;
+        display: grid;
+        grid-template-rows: 62px 1fr 140px;
     }
     &__top{
+        margin-right: 30px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -44,11 +48,20 @@
     &__btn-exit{
         @extend %btn;
     }
+    &__list{
+        padding-right: 30px;
+        overflow-y: auto;
+        @extend %custom-scroll;
+    }
     &__item{
         position: relative;
         list-style: none;
         padding-bottom: 24px;
         border-bottom: 1px solid #E9E9E9;
+        margin-bottom: 20px;
+    }
+    &__item:last-child{
+        margin-bottom: 0;
     }
     &__btn-delete{
         position: absolute;
@@ -56,8 +69,8 @@
         right: 0;
         @extend %btn;
     }
-    &__item + &__item{
-        margin-top: 20px;
+    .images{
+        margin-bottom: 12px;
     }
     &__cod{
         margin-bottom: 16px;
@@ -93,9 +106,13 @@
         color: $cian;
     }
     &__field-input{
-        border:none;
+        border: 1px solid transparent;
+        border-radius: 4px;
         width: 100%;
-    }   
+    } 
+    &__field-input--outline{
+        border: 1px solid $violet;
+    }  
     &__btns{
         display: none;
         grid-column: 5;
@@ -123,15 +140,77 @@
         @extend %btn;
     }
     &__amount-input{
+        border: 1px solid transparent;
+        border-radius: 4px;
         border: none;
         width: 58px;
         text-align: center;
-        margin: 0 8px;
-        
+        margin: 0 8px;       
+    }
+    &__amount-input--outline{
+        border: 1px solid $violet;
     }
     &__total-input{
+        border: 1px solid transparent;
         font-size: 20px;
         grid-column: 3 / 5; 
+        border-radius: 4px;
+    }
+    &__total-input--outline{
+        border: 1px solid $violet;
+    }
+    &__bottom-form{
+        position: relative;
+        margin-right: 30px;
+        padding: 16px 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 20px;
+        grid-template-rows: repeat(2, 1fr);
+        &::after{
+            content: '';
+            position: absolute;
+            height: 1px;
+            left: 0;
+            right: 0;
+            top: -1px;
+            background-color: #E9E9E9;
+        }
+    }
+    &__bottom-title{
+        align-self: flex-end;
+        font-size: 24px;
+        opacity: .5;
+    }
+    &__initial{
+        grid-row: 2;
+    }
+    &__initial-title{
+        @extend %subtitle;
+        margin-bottom: 8px;
+    }
+    &__initial-input{
+        background-color: $mint;
         border: none;
+        padding: 4px;
+        border-radius: 4px;
+    }
+    &__bottom-total{
+        align-self: flex-end;
+        justify-self: flex-end;
+        font-size: 24px;
+        color: $cian;
+    }
+    &__btn-submit{
+        grid-column: 2;
+        @extend %btn-with-border;
+        padding: 8px 12px;
+        justify-self: flex-end;
+        align-self: flex-end;
+    }
+    &__error{
+        position: absolute;
+        bottom: -8px;
+        right: 0;
     }
 }

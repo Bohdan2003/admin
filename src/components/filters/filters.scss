@@ -1,9 +1,11 @@
 @import "../../style/vars";
 
 .filters{
-    position: relative;
+    background-color: $white;
+    position: sticky;
+    top: 95px;
+    z-index: 4;
     display: none;
-    margin-bottom: 60px;
     &--visible{
         display: block;
     }
@@ -16,7 +18,7 @@
         z-index: 2;
     }
     &__tab{
-        margin-bottom: 24px;
+        padding-bottom: 24px;
     }
     &__box{
         height: 32px;
@@ -55,10 +57,7 @@
     }
     &__span{
         display: inline-block;
-        cursor: pointer;
-        border: 1px solid $mint;
-        padding: 12px;
-        border-radius: 8px;
+        @extend %btn-with-border;
     }
     &__span--selected{
         cursor: auto;

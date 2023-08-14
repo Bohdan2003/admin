@@ -1,0 +1,10 @@
+@import "../../style/vars";
+
+.rate{
+    &__item{
+        margin-bottom: 20px;
+    }
+    &__btn-add{
+        @extend %btn;
+    }
+}

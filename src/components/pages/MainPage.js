@@ -1,6 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
 import { useSelector } from 'react-redux';
-import { useNavigate } from "react-router-dom";
 import { Header } from "../header/Header";
 
 const Store = lazy(() => import('../store/Store'))
@@ -9,12 +8,7 @@ const Report = lazy(() => import('../report/Report'))
 
 export const MainPage = () => {
 
-    const activeSection = useSelector(state => state.menu.activeSection);
-    const navigate = useNavigate();
-    
-    useEffect(() => {
-        if(!localStorage.getItem("token")) navigate("/login");
-    }, [])
+    const activeSection = useSelector(state => state.header.activeSection);    
 
     const setContent = () => {
         switch (activeSection) {

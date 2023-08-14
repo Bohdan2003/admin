@@ -1,0 +1,23 @@
+@import "../../style/vars";
+
+.stock-add{
+    .filters{
+        position: relative;
+        top: 0;
+    }
+    &__top{
+        position: sticky;
+        z-index: 2;
+        top: 95px;
+        background-color: $white;
+    }
+    &__table-head{
+        @extend %subtitle;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #E9E9E9;
+    }
+    .create-item{
+        position: sticky;
+        top: 303px;
+    }
+}

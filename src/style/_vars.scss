@@ -4,12 +4,28 @@ $black : #272C30;
 $cian: #569DAA;
 $mint: #CFF1E7;
 $gray: #D9D9D9;
+$violet: #C79BFF;
 
 
 %poiret-400{
     font-family: "Inter-Regular";
     font-weight: 400;
 } 
+
+%custom-scroll{
+    &::-webkit-scrollbar{
+        padding-right: 10px;
+        width: 24px;               /* ширина всей полосы прокрутки */
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;        /* цвет зоны отслеживания */
+    }
+    &::-webkit-scrollbar-thumb {
+        border: 10px solid #fff;
+        background-color: $cian;    /* цвет бегунка */
+        border-radius: 20px;    /* отступ вокруг бегунка */
+    }
+}
 
 %subtitle{
     font-size: 13px;
@@ -22,7 +38,16 @@ $gray: #D9D9D9;
     background-color: transparent;
 }
 
+%btn-with-border{
+    background-color: transparent;
+    cursor: pointer;
+    border: 1px solid $mint;
+    padding: 12px;
+    border-radius: 8px;
+}
+
 %btn-with-img{
+    text-decoration: none;   
     cursor: pointer;
     border: none;
     background-color: transparent;
@@ -32,8 +57,87 @@ $gray: #D9D9D9;
     &::before{
         content: '';
         position: absolute;
+        top: 3px;
         left: 6px;
         width: 24px;
         height: 24px;
     } 
+}
+
+%section--disabled{
+    pointer-events: none;
+    position: relative;
+    &::before{
+        content: '';
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #ffffff6c;
+        background-image: url('../assets/loading.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}
+
+%table{
+    table{ 
+        border-collapse: separate;
+        border-spacing: 8px;
+        width: 100%;
+        text-align: left;
+    }
+    thead{
+        position: sticky;
+        z-index: 2;
+        top: 110px;
+        &::before{
+            content: '';
+            position: absolute;
+            z-index: 1;
+            top: -20px;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background-color: $white;
+        }
+    }
+    thead tr{
+        position: relative;
+        z-index: 10;
+    }
+    tbody tr{
+        position: relative;
+        &::after{
+            content: '';
+            position: absolute;
+            height: 1px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #E9E9E9;
+        }
+    }    
+    th,
+    td{
+        // box-sizing: border-box;
+        height: 80px;
+        vertical-align: middle;
+        // padding: 8px 20px;
+    }
+    th{
+        font-size: 13px;
+        opacity: .5;
+    }
+    // td:nth-child(1){
+    //     width: 100px;
+    // }
+    // td:nth-child(2){
+    //     width: 35%;
+    // }
+    .img + .img{
+        margin-left: 10px;
+    }
 }

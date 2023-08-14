@@ -1,43 +1,25 @@
-import { useRef, useEffect } from "react";
-import { useDispatch, useSelector} from "react-redux";
-import { useGetStoreItemsMutation } from "../../api";
+import { useRef } from "react";
 import { hiddenScroll } from "../../utils/helper";
 
-import { Error } from "../error/Error";
-import { FiltersMenu } from "../filters/FIltersMenu";
+import { FiltersMenu } from "../filterMenu/FIltersMenu";
 import { Filters } from "../filters/Filters";
-import { StoreTableItem } from "./StoreTableItem";
+import { StoreTable } from "../storeTable/StoreTable";
 import { Cart } from "../cart/Cart";
 
 import "./store.scss";
 
-const Store = () => {
+const page = 'store';
 
-    const filters = useSelector(state => state.filters.store.params);
-    const [ getData, { data = [], isLoading, isError, error } ] = useGetStoreItemsMutation();
+const Store = () => {    
     const cartRef = useRef();
     const filtersRef = useRef();
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        getData(filters)
-    }, [filters])
-
-    const setContent = () => {
-        if(isLoading) return <tr><td>loading...</td></tr>
-        if(isError) return <tr><td><Error error={error}/></td></tr>
-
-        return data.map(item => <StoreTableItem props={item} dispatch={dispatch} key={item.id}/>)
-    }
-
-    const content = setContent();
 
     return (
         <>
             <section className="store">
-                <div className="store__top">                   
+                <div className="store__top">
                     <div className="store__head">
-                        <FiltersMenu page={'store'} filtersRef={filtersRef}/>
+                        <FiltersMenu page={page} filtersRef={filtersRef}/>
                         <button className="store__cart" 
                                 onClick={() => {
                                     hiddenScroll();
@@ -45,24 +27,9 @@ const Store = () => {
                                 }}
                         >Корзина</button>
                     </div>                 
-                    <Filters page={'store'} filtersRef={filtersRef}/>  
+                    <Filters page={page} filtersRef={filtersRef}/> 
                 </div>
-                <table className="store__table">
-                    <thead>
-                        <tr>
-                            <th>Код</th>
-                            <th>Наименование</th>
-                            <th>Склад</th>
-                            <th>Магазин</th>
-                            <th>Розница</th>
-                            <th>Опт</th>
-                            <th>Изображение</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {content}  
-                    </tbody>
-                </table>
+                <StoreTable page={page}/> 
             </section>
             <Cart cartRef={cartRef}/>
         </>

@@ -7,14 +7,14 @@
         height: 60px;
     }
     &__big{
-        transition: all .5s;
+        // transition: all .5s;
         opacity: 0;
         pointer-events: none;
         background: rgba(221, 249, 240, 0.05);
         backdrop-filter: blur(2.5px);
         margin: 0;
         position: fixed;
-        z-index: 2;
+        z-index: 5;
         top: 0;
         left: 0;
         right: 0;
@@ -26,6 +26,8 @@
             pointer-events: fill;
         }
         img{
+            object-fit: cover;
+            object-position: center;
             transition: all .5s;
             height: 100vh;
             width: 80vw;

@@ -1,0 +1,53 @@
+@import "../../style/vars";
+
+.stock{
+    &__top{
+        background-color: $white;
+        z-index: 3;
+        padding-bottom: 24px;
+        position: sticky;
+        top: 0;
+    }
+    &__head{
+        padding: 20px 0;
+        display: flex;
+        justify-content: space-between;
+    }
+    &__btn{
+        @extend %btn-with-img;
+        margin-right: 26px;
+    }
+    &__btn:nth-child(2){
+        margin-right: 160px;
+    }
+    &__btn:last-child{
+        margin-right: 0;
+    }
+    &__btn--active{
+        position: relative;
+        &::after{
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -5px;
+            height: 1px;
+            background-color: $cian;
+        }
+    }
+    &__btn-rate::before{
+        background-image: url('../../assets/rate.svg');
+    }
+    &__btn-ends::before{
+        background-image: url('../../assets/ends.svg');
+    }
+    &__btn-add::before{
+        background-image: url('../../assets/plus.svg');
+    }
+    &__btn-download::before{
+        background-image: url('../../assets/download.svg');
+    }
+    &__btn-upload::before{
+        background-image: url('../../assets/upload.svg');        
+    }
+}
