@@ -19,7 +19,6 @@ const FullscreenImg = ({imgWrapperRef, src, noHiddenScroll}) => {
             onClick={e => {
                 if(e.target.classList.contains('img__big')) {
                     e.target.classList.remove("img__big--visible")
-                    console.log(noHiddenScroll);
                     if(!noHiddenScroll){
                         showScroll()
                     }

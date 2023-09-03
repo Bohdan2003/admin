@@ -2,8 +2,8 @@
 $white: #fff;
 $black : #272C30;
 $cian: #569DAA;
-$mint: #CFF1E7;
-$gray: #D9D9D9;
+$mint: #DDF9F0;
+$gray: #C9CACB;
 $violet: #C79BFF;
 
 
@@ -29,7 +29,7 @@ $violet: #C79BFF;
 
 %subtitle{
     font-size: 13px;
-    opacity: 0.5;
+    color: $gray;
 }
 
 %btn{
@@ -85,11 +85,12 @@ $violet: #C79BFF;
 %table{
     table{ 
         border-collapse: separate;
-        border-spacing: 8px;
+        // border-spacing: 20px 0;
         width: 100%;
         text-align: left;
     }
     thead{
+        padding-top: 20px;
         position: sticky;
         z-index: 2;
         top: 110px;
@@ -97,7 +98,7 @@ $violet: #C79BFF;
             content: '';
             position: absolute;
             z-index: 1;
-            top: -20px;
+            top: 0;
             bottom: 0;
             right: 0;
             left: 0;
@@ -105,10 +106,9 @@ $violet: #C79BFF;
         }
     }
     thead tr{
-        position: relative;
         z-index: 10;
     }
-    tbody tr{
+    tr{
         position: relative;
         &::after{
             content: '';
@@ -122,22 +122,157 @@ $violet: #C79BFF;
     }    
     th,
     td{
-        // box-sizing: border-box;
         height: 80px;
         vertical-align: middle;
-        // padding: 8px 20px;
+    }
+    th+th,
+    td+td{
+        padding-left: 20px;
     }
     th{
-        font-size: 13px;
-        opacity: .5;
+        @extend %subtitle;
     }
-    // td:nth-child(1){
-    //     width: 100px;
-    // }
-    // td:nth-child(2){
-    //     width: 35%;
-    // }
     .img + .img{
         margin-left: 10px;
+    }
+    .no-border::after{
+        display: none;
+    }
+}
+
+%calendar{
+    .react-daterange-picker {
+        display: inline-flex;
+        position: relative;
+        &--disabled {
+            background-color: #f0f0f0;
+            color: #6d6d6d;
+        }
+        &__wrapper {
+            display: flex;
+            flex-grow: 1;
+            flex-shrink: 0;
+            align-items: center;
+        }
+        &__inputGroup {
+            min-width: calc(4px + (4px * 3) + 0.54em * 6 + 0.217em * 2);
+            height: 100%;
+            flex-grow: 1;
+            padding: 0 2px;
+        }
+        &__inputGroup__input {
+            min-width: 0.54em;
+            height: calc(100% - 2px);
+            position: relative;
+            padding: 1px;
+            border: 0;
+            background: none;
+            color: currentColor;
+            font: inherit;
+            box-sizing: content-box;
+            -webkit-appearance: textfield;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+        &__clear-button{
+            display: none;
+        }
+        &__calendar-button{
+            cursor: pointer;
+        }
+        &__inputGroup__input::-webkit-outer-spin-button,
+        &__inputGroup__input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          margin: 0;
+        }
+        &__button {
+            border: 0;
+            background: transparent;
+            padding: 4px 6px;
+        }
+        &__calendar--closed,
+        &__clock--closed {
+            display: none;
+        }
+    }
+    .react-calendar {
+        // border: 1px solid #E9E9E9;
+        // padding: 20px 30px 40px;
+        // border-radius: 24px;
+        border: none;        
+        width: 1000px;
+        box-sizing: border-box;
+        &__navigation__prev-button:focus,
+        &__navigation__next-button:focus,
+        &__navigation button:enabled:hover,
+        &__navigation__label:focus{
+            background-color: transparent !important;
+        }
+        &__navigation__prev-button,
+        &__navigation__next-button{
+            font-size: 0;
+            position: relative;
+            &::after{
+                content: '';
+                position: absolute;
+                width: 12px;
+                height: 20px;
+                
+            }
+        }
+        &__navigation__prev-button::after{
+            background-image: url('../assets/arrow-left.svg');
+        }
+        &__navigation__next-button::after{
+            background-image: url('../assets/arrow-right.svg');
+        }
+        &__navigation__prev2-button,
+        &__navigation__next2-button{
+            display: none;
+        }
+        &__month-view__weekdays__weekday abbr{
+            text-decoration: none !important;
+        }
+        &__tile{
+            margin: 2px 0 !important;
+            color: $black;
+            border: 2px solid transparent !important;
+        }
+        &__tile--event{
+            color: $mint;
+        }
+        &__tile--hasActive{
+            background-color: $mint;
+        }
+        &__tile:enabled:hover,
+        &__tile:enabled:focus,
+        &__tile--now,
+        &__tile--hover{
+            background-color: #ddf9f0a9 !important; 
+        }
+        &__tile--active{
+            background-color: $mint;
+        }
+        &__tile--active:enabled:hover{
+            background-color: $mint 
+        }
+        &__tile--active:enabled:focus{
+            background-color: $mint;
+        } 
+        &__tile--range{
+            background-color: $mint; // $mint
+            // color: #272C30;
+        }
+        &__tile--rangeStart{
+            border-left: 2px solid $cian !important;
+        }
+        &__tile--rangeEnd{
+            border-right: 2px solid $cian !important;
+        }
+        &__month-view__days__day--neighboringMonth abbr{
+            color: $gray !important;
+        }
     }
 }

@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from "react";
 import { useSelector } from 'react-redux';
 import { Header } from "../header/Header";
+import { ReactComponent as LoadingIcon } from "../../assets/loading-big.svg";
 
 const Store = lazy(() => import('../store/Store'))
 const Stock = lazy(() => import('../stock/Stock'))
@@ -23,7 +24,17 @@ export const MainPage = () => {
     return (
         <div className="container">
             <Header/>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense 
+                fallback={
+                    <div 
+                        style={{
+                            height:'100vh',
+                            display:'grid',
+                            placeItems:'center'
+                        }}
+                    ><LoadingIcon/></div>
+                }
+            >
                 {content}
             </Suspense>
         </div>

@@ -51,12 +51,12 @@ export const RateForm = ({ fetchProps, props, cancel,
             })}
             onSubmit={(values) => {
                 fetch({body: values, id}).unwrap()
-                .then(() => {
-                    if(cancel) cancel();
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+                    .then(() => {
+                        if(cancel) cancel();
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
             }}
         >
             {({ values, errors, touched, setFieldValue, setValues }) => (

@@ -1,0 +1,47 @@
+@import "../../style/vars";
+
+.event-calendar{
+    &__btn{
+        @extend %btn;
+        color: $cian;
+    }
+    &__box{
+        border: 1px solid #E9E9E9;
+        padding: 20px 30px 40px;
+        border-radius: 24px;
+        background-color: $white;
+        z-index: 30;
+        left: 0;
+        top: 56px;
+        position: absolute;
+        @extend %calendar;
+    }
+    .react-calendar{
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid $gray;
+    }
+    .react-calendar__tile--event abbr{
+        color: $cian;
+    }
+    &__form-box{
+        display: flex;
+        margin-bottom: 8px;
+    }
+    &__label{
+        margin-right: 24px;
+        @extend %subtitle;
+        font-size: 14px;
+    }
+    &__input{
+        border: none;
+    }
+    &__form-btn{
+        font-size: 14px;
+        @extend %btn;
+        color: $cian;
+    }
+    &__form-btn--hidden{
+        display: none;
+    }
+}

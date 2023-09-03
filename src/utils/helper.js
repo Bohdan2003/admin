@@ -1,3 +1,34 @@
+export const setPageIfTableEnd = ({setPage, page, data, isFetching, isError}) => {
+    const pageCount = 10;
+
+    const scrollTop = document.documentElement.scrollTop;
+    const windowHeight = window.innerHeight;
+    const scrollHeight = document.documentElement.scrollHeight;
+
+    // console.log(scrollHeight - (scrollTop + windowHeight),
+    //     scrollHeight - (scrollTop + windowHeight) < 100,  
+    //     !isFetching,
+    //     !isError,
+    //     data.length != 0
+    // );
+    if (
+        scrollHeight - (scrollTop + windowHeight) < 100 && 
+        !isFetching &&
+        !isError &&
+        data.count - page * pageCount <= 10 
+    ) {       
+        setPage(value => value + 1);
+    }
+};
+
+export const convertDate = (originalDate, delimiter = '-') => {
+    let year = originalDate.getFullYear();
+    let month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
+    let day = originalDate.getDate().toString().padStart(2, '0');
+
+    return `${year}${delimiter}${month}${delimiter}${day}`;
+}
+
 export const ConverIntoIntNumber = (str) => {
     return +str.replace(/[^\d]/g, '');
 }

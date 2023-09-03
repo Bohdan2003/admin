@@ -1,0 +1,26 @@
+@import "../../style/vars";
+
+.report{
+    &__top{
+        position: relative;
+        padding-top: 20px;
+        padding-bottom: 32px;
+        display: flex;
+        justify-content: space-between;
+    }
+    &__btns{
+        display: flex;
+        margin-bottom: 12px;
+    }
+    &__btn{
+        @extend %btn;
+        padding: 6px;
+        border-bottom: 1px solid transparent;
+    }
+    &__btn--active{
+        border-bottom: 1px solid $cian;
+    }
+    &__btn + &__btn{
+        margin-left: 10px;
+    }
+}

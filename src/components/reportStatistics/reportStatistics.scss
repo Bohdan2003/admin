@@ -1,0 +1,17 @@
+@import "../../style/vars";
+
+.report-statistics{
+    margin-bottom: 60px;
+    &__list{
+        display: grid;
+        grid-template-columns: repeat(4, 166px);
+        column-gap: 20px;
+    }
+    &__subtitle{
+        margin-bottom: 8px;
+        @extend %subtitle;
+    }
+    &__text{
+        font-size: 24px;
+    }
+}

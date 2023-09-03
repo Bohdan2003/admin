@@ -1,7 +1,10 @@
 import { memo } from "react";
 import { setSearch, clearFilters } from "../filters/filtersSlice";
+import { resetPage } from "../infiniteScroll/infiniteScrollSlice";
 import { useSelector, useDispatch } from "react-redux";
 import "./filtersMenu.scss";
+
+import { Search } from "../search/Search";
 
 export const FiltersMenu = memo(({page, filtersRef, disabled = false}) => {
 
@@ -19,21 +22,16 @@ export const FiltersMenu = memo(({page, filtersRef, disabled = false}) => {
                         onClick={() => {
                             dispatch(clearFilters({page}))
                         }}
-            >Сбросить*</button>          
-            <div className="filters-menu__input-wrapper">
-                <input className="filters-menu__input" 
-                        type="text" 
-                        placeholder="Найти..."
-                        value={search}
-                        onChange={e => {
-                            if(!disabled)
-                                dispatch(setSearch({
-                                        page,
-                                        value: e.target.value
-                                }));
-                        }}
-                />
-            </div>
+            >Сбросить*</button> 
+            <Search
+                placeholder="Найти..."
+                value={search}
+                disabled={disabled}
+                setValue={value => {
+                    dispatch(resetPage(page)); 
+                    dispatch(setSearch({ page, value }));
+                }}
+            />         
         </div>
     )
 })

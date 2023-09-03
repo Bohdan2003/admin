@@ -1,33 +1,33 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-// import { store } from '../store';
 import { setFiltersForRequest } from '../utils/helper';
 import { SERVER_URL } from '../keys';
 
-// const getHeader = () => {
-//   const token = store.getState(state => state).login.token;
-//   // console.log(token);
-//   console.log(token);
-//   return {
-//     'content-type': 'application/json',
-//     'Authorization': `Bearer ${token}`
-//   }
-// }
+let storePage = 1;
+let stockPage = 1;
 
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ 
     baseUrl: SERVER_URL,
     prepareHeaders: (headers, {getState}) => {
-      // const token = getState().login.token;
       const token = getState().login.token;
-      // console.log(token);
 
       headers.set('Authorization', `Bearer ${token}`);
 
       return headers;
     },
    }),
-  tagTypes: ['User', 'Filters', 'Cart', 'Currency', 'Added', 'Eddit'],
+  tagTypes: 
+  [
+    'User', 
+    'Filters', 
+    'Cart', 
+    'Currency', 
+    'Added', 
+    'Eddit', 
+    'Delete', 
+    'Event'
+  ],
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (payload) => ({
@@ -38,23 +38,63 @@ export const api = createApi({
       invalidatesTags: ['User']
     }),
     getStoreItems: builder.query({
-      query: (payload) => `/admin/shop_product?${setFiltersForRequest(payload)}`,
-      providesTags: ['User', 'Cart', 'Eddit']
+      query: (payload) => {
+        storePage = payload.page;
+        return `/admin/shop_product/?page=${payload.page}&${setFiltersForRequest(payload.filters)}`
+      },
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      merge: (currentCache, newItems) => {
+        if(storePage == 1) {
+          currentCache.results = [...newItems.results];          
+        } else {
+          currentCache.results.push(...newItems.results);          
+        }
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+      providesTags: ['Cart']
     }),
     getStockItems: builder.query({
-      query: (payload) => `/admin/product?${setFiltersForRequest(payload)}`,
-      providesTags: ['User', 'Eddit']
+      query: (payload) => {
+        stockPage = payload.page;
+        return  `/admin/product/?page=${payload.page}&${setFiltersForRequest(payload.filters)}`;
+      },
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      merge: (currentCache, newItems) => {
+        if(stockPage == 1) {
+          currentCache.results = [...newItems.results];          
+        } else {
+          currentCache.results.push(...newItems.results);          
+        }
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      }
     }),
     getEndingItems: builder.query({
       query: () => '/admin/product/min_quantity/',
-      providesTags: ['Eddit']
+      providesTags: [
+        'Added', 
+        'Eddit',
+        'Cart'
+      ]
+    }),   
+    getLastAddedItems: builder.query({
+      query: () => '/admin/product/last_product/',
+      providesTags: ['Cart']
     }),
     editStockItem: builder.mutation({
       query: (payload) => ({
         url: `/admin/product/${payload.id}/`,
         method: "PUT",
         body: payload.body
-      })
+      }),
+      invalidatesTags:['Eddit']
     }),
     createStockItem: builder.mutation({
       query: (payload) => ({
@@ -72,15 +112,12 @@ export const api = createApi({
       }),
       invalidatesTags: ['Added']
     }),
-    getLastAddedItems: builder.query({
-      query: () => '/admin/product/last_product/',
-      providesTags: ['Added']
-    }),
     deleteStockItem: builder.mutation({
       query: (payload) => ({
         url: `/admin/product/${payload}/`,
         method:'DELETE'
-      })
+      }),
+      invalidatesTags: ['Delete']
     }),
     getFilters: builder.query({
       query: () => 'admin/filters/get/',
@@ -133,7 +170,7 @@ export const api = createApi({
       providesTags: ['Currency']
     }),
     createCurrency: builder.mutation({
-      query: (payload) => ({
+      query: payload => ({
         url: '/admin/currency/create/',
         method:'POST',
         body: payload.body
@@ -141,7 +178,7 @@ export const api = createApi({
       invalidatesTags: ['Currency']
     }),
     editCurrency: builder.mutation({
-      query: (payload) => ({
+      query: payload => ({
         url: `/admin/currency/rud/${payload.id}/`,
         method:'PUT',
         body: payload.body
@@ -149,12 +186,36 @@ export const api = createApi({
       invalidatesTags: ['Currency']
     }),
     deleteCurrency: builder.mutation({
-      query: (payload) => ({
+      query: payload => ({
         url: `/admin/currency/rud/${payload}/`,
         method:'DELETE'
       }),
       invalidatesTags: ['Currency']
-    })
+    }),
+    getReportStatistics: builder.query({
+      query: payload => `/admin/report/get_info/?start_date=${payload[0]}&end_date=${payload[1]}&`,
+      providesTags: ['Cart']
+    }),
+    getReportOrders: builder.query({
+      query: payload => `/admin/report/get_info/basket/?start_date=${payload.dateRange[0]}&end_date=${payload.dateRange[1]}&search=${payload.search}&`,
+      providesTags: ['Cart']
+    }),
+    getReportProducts: builder.query({
+      query: payload => `/admin/report/get_info/product/?start_date=${payload.dateRange[0]}&end_date=${payload.dateRange[1]}&search=${payload.search}&`,
+      providesTags: ['Cart']
+    }),
+    getCalendarEvents: builder.query({
+      query: `/admin/report/additional_expenses/`,
+      providesTags: ['Event']
+    }),
+    crateCalendarEvent: builder.mutation({
+      query: payload => ({
+        url: `/admin/report/additional_expenses/create/`,
+        method:'post',
+        body: payload
+      }),
+      invalidatesTags: ['Event']
+    }),
   }),
 })
 
@@ -178,5 +239,10 @@ export const {
   useGetCurrencyQuery,
   useCreateCurrencyMutation,
   useEditCurrencyMutation,
-  useDeleteCurrencyMutation
+  useDeleteCurrencyMutation,
+  useGetReportStatisticsQuery,
+  useGetReportOrdersQuery,
+  useGetReportProductsQuery,
+  useGetCalendarEventsQuery,
+  useCrateCalendarEventMutation
 } = api

@@ -9,9 +9,10 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addItemToCart: (state, action) => {
-        const { art, currency, price, opt, name, quantity, quantity_in_shop, retail, image1, image2, image3, id } = action.payload;
+        const { art, filter_product, currency, price, opt, name, quantity, quantity_in_shop, retail, image1, image2, image3, id } = action.payload;
         state.items.push({
           art, 
+          filter_product,
           currency, 
           price: opt, 
           name, 
@@ -47,6 +48,11 @@ export const cartSlice = createSlice({
   },
 })
 
-export const { addItemToCart, removeItemToCart, editItemToCart, clearCart } = cartSlice.actions;
+export const { 
+  addItemToCart, 
+  removeItemToCart, 
+  editItemToCart, 
+  clearCart 
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

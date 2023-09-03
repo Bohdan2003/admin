@@ -10,13 +10,11 @@ import { LoginPage } from "../pages/LoginPage";
 export const App = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const token = useSelector(state => state.login.token);
-    const token = localStorage.getItem("token");
 
     useEffect(() => {
-        // console.log('pass');
+        const token = localStorage.getItem("token");
+
         if(token){
-            // navigate("/login")
             dispatch(setToken(token));
         } else {
             navigate("/login")

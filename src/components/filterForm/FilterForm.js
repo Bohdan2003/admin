@@ -45,35 +45,40 @@ export const FilterForm = ({fetch, firstItem = false, filterAddPayload}) => {
                 >
                     <Form className='filters-add__form'>
                         <div className="filters-add__form-inner">
-                            <Field className="filters-add__input"
-                                    name="name"
-                                    type="text"    
+                            <Field 
+                                className="filters-add__input"
+                                name="name"
+                                type="text"    
                             />
-                            <button className="filters-add__btn-save"
-                                    type="submit"
+                            <button 
+                                className="filters-add__btn-save"
+                                type="submit"
                             ><SaveIcon/></button>
                             {
                                 firstItem
                                 ? ''
-                                : <button className="filters-add__btn-cancel"
-                                      type="button"
-                                      onClick={() => {
-                                          setVisibleForm(false);
-                                      }}
+                                : <button 
+                                    className="filters-add__btn-cancel"
+                                    type="button"
+                                    onClick={() => {
+                                        setVisibleForm(false);
+                                    }}
                                   ><CancleIcon/></button>
                             }
                         </div>
-                        <ErrorMessage className="filters-add__error error" 
-                                    name="name" 
-                                    component="div"
+                        <ErrorMessage 
+                            className="filters-add__error error" 
+                            name="name" 
+                            component="div"
                         />
                     </Form>
                 </Formik>
                 :
-                <button className="filters-add__btn filters-add__btn--visible"
-                        onClick={() => {
-                            setVisibleForm(true)
-                        }}
+                <button 
+                    className="filters-add__btn filters-add__btn--visible"
+                    onClick={() => {
+                        setVisibleForm(true)
+                    }}
                 >
                     <PlusIcon/>
                 </button>

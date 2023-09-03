@@ -14,6 +14,7 @@ import {
     clearTags 
 } from "./filtersSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { resetPage } from "../infiniteScroll/infiniteScrollSlice";
 import { useCreateTegMutation, useCreateFilterMutation } from "../../api";
 
 import { Loading } from "../loading/Loading"
@@ -62,33 +63,41 @@ const FiltersTab = memo(({page, data = [], title, selectedInput, handleChange, f
                         const checked = selectedInput == item.id;
                         return (
                             <label className="filters__input" key={item.id}>
-                                <input type="checkbox" 
-                                       value={item.id}
-                                       checked={checked}
-                                       onChange={() => {
-                                            handleChange(item);
-                                       }}
+                                <input 
+                                    type="checkbox" 
+                                    value={item.id}
+                                    checked={checked}
+                                    onChange={() => {
+                                        handleChange(item);
+                                    }}
                                 />
-                                <span className={`filters__span ${checked ? "filters__span--selected" : ""}`}>
+                                <span 
+                                    className={`filters__span 
+                                        ${
+                                            checked 
+                                            ? "filters__span--selected" 
+                                            : ""
+                                        }
+                                    `}>
                                     {item.name}
                                 </span>
                                 {
-                                    editMode 
-                                    ? <button className="filters__input-delete"
-                                            onClick={() => {
-                                                deleteFilter(item.id).unwrap()
-                                                    .then(() => {
-                                                        dispatch(setSubcategory({
-                                                            page,
-                                                            id: null
-                                                        }));
-                                                    })
-                                                    .catch(e => {console.log(e);});
-                                            }}        
-                                      >
+                                    editMode &&
+                                    <button 
+                                        className="filters__input-delete"
+                                        onClick={() => {
+                                            deleteFilter(item.id).unwrap()
+                                                .then(() => {
+                                                    dispatch(setSubcategory({
+                                                        page,
+                                                        id: null
+                                                    }));
+                                                })
+                                                .catch(e => {console.log(e);});
+                                        }}        
+                                    >
                                         <BucketIcon/>
-                                      </button>
-                                    : ''
+                                    </button>
                                 }
                             </label>
                         )
@@ -177,6 +186,7 @@ const FiltersTags = memo(({page}) => {
                                                             }
                                                         }))
                                                     }
+                                                    dispatch(resetPage(page));   
                                                 }}
                                             />
                                             <span className={`filters__span ${checked ? "filters__span--selected" : ""}`}>
@@ -245,67 +255,69 @@ export const Filters = memo(({page = '', filtersRef = null, visible = false, hid
                 : isError 
                 ? <Error error={error}/>
                 : 
-                <FiltersTab page={page}
-                            data={categoriesData}
-                            title="Категория"
-                            selectedInput={category}
-                            filterAddPayload={{
-                                level_filter: 1
-                            }}
-                            handleChange={item => {
-                                if(category != item.id) {
-                                    dispatch(setCategory({
-                                        page,
-                                        id: item.id
-                                    }))
-                                } else {
-                                    dispatch(setCategory({
-                                        page,
-                                        id: null
-                                    }))
-                                }
-                                if(subcategory){
-                                    dispatch(setSubcategory({
-                                        page,
-                                        id: null
-                                    }));        
-                                }
-                                dispatch(clearTags({page}));                 
-                            }}
+                <FiltersTab     
+                    page={page}
+                    data={categoriesData}
+                    title="Категория"
+                    selectedInput={category}
+                    filterAddPayload={{
+                        level_filter: 1
+                    }}
+                    handleChange={item => {
+                        if(category != item.id) {
+                            dispatch(setCategory({
+                                page,
+                                id: item.id
+                            }))
+                        } else {
+                            dispatch(setCategory({
+                                page,
+                                id: null
+                            }))
+                        }
+                        if(subcategory){
+                            dispatch(setSubcategory({
+                                page,
+                                id: null
+                            }));        
+                        }
+                        dispatch(clearTags({page}));
+                        dispatch(resetPage(page));            
+                    }}
                 />
             }
             {
                 category &&
-                <FiltersTab page={page}
-                            data={categoriesData[categoriesData.findIndex(item => item.id == category )].children}
-                            lavel={2}
-                            title="Подкатегория"
-                            selectedInput={subcategory}
-                            filterAddPayload={{
-                                level_filter: 2,
-                                parent_filter: category
-                            }}
-                            handleChange={item => {
-                                if(subcategory != item.id){
-                                    dispatch(setSubcategory({
-                                        page,
-                                        id: item.id
-                                    }));
-                                } else {
-                                    dispatch(setSubcategory({
-                                        page,
-                                        id: null
-                                    }));
-                                }
-                                dispatch(clearTags({page}));
-                            }}
+                <FiltersTab 
+                    page={page}
+                    data={categoriesData[categoriesData.findIndex(item => item.id == category )].children}
+                    lavel={2}
+                    title="Подкатегория"
+                    selectedInput={subcategory}
+                    filterAddPayload={{
+                        level_filter: 2,
+                        parent_filter: category
+                    }}
+                    handleChange={item => {
+                        if(subcategory != item.id){
+                            dispatch(setSubcategory({
+                                page,
+                                id: item.id
+                            }));
+                        } else {
+                            dispatch(setSubcategory({
+                                page,
+                                id: null
+                            }));
+                        }
+                        dispatch(clearTags({page}));
+                        dispatch(resetPage(page));   
+                    }}
                 />
                
             }
             { 
-              subcategory && !hiddenTeg 
-              ? <FiltersTags page={page}/> 
-              : ''
+              subcategory && !hiddenTeg && <FiltersTags page={page}/> 
             }           
         </div>
     )

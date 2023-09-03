@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     store:{
+        page: 1,
         editMode: false,
         values: {
             search: '',
@@ -11,6 +12,7 @@ const initialState = {
         }
     },
     stock:{
+        page: 1,
         editMode: false,
         values: {
             search: '',
@@ -20,12 +22,25 @@ const initialState = {
         }
     },
     stockAdd:{
+        page: 1,
         editMode: false,
         values: {
             category: null,
             subcategory: null
         }
-    }
+    },
+    reportOrders:{
+        page: 1,
+        values: {
+            search: '',
+        }
+    },
+    reportProducts:{
+        page: 1,
+        values: {
+            search: '',
+        }
+    },
 }
 
 export const filtersSlice = createSlice({

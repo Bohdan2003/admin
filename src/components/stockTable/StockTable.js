@@ -1,28 +1,58 @@
 import { memo, useState } from "react";
 
+import { InfiniteScroll } from "../infiniteScroll/InfiniteScroll";
+import { Loading } from "../loading/Loading";
+import { Error } from "../error/Error";
 import { StockTableEditItem } from "../stockTableEditItem/StockTableEditItem";
 import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import { Images } from "../images/Images";
 
 import "./stockTable.scss";
 
-const StockTableItem = memo(({props}) => {
+const TableHead = () => (
+    <thead>
+        <tr>
+            <th width={200}>Код</th>
+            <th width={520}>Наименование</th>
+            <th width={100}>Склад</th>
+            <th width={100}>Магазин</th>
+            <th width={100}>Закупка</th>
+            <th width={100}>Розница</th>
+            <th width={100}>Опт</th>
+            <th>Изображение</th>
+            <th width={60}></th>
+        </tr>
+    </thead>
+)
+
+const TableItem = memo(({props}) => {
     const [ editMode, setEditMode ] = useState(false);
-    const [ state, setState ] = useState(props);
     const [ itemHidden, setItemHidden ] = useState(false);
-    const {art, name, quantity, quantity_in_shop, price, opt, retail, image1, image2, image3, id } = state;
+    const {
+        art, 
+        name, 
+        quantity, 
+        quantity_in_shop, 
+        price, 
+        currency_symbol,
+        opt, 
+        retail, 
+        image1, 
+        image2, 
+        image3, 
+        id 
+    } = props;
 
     if(itemHidden) return;
 
     if(editMode) return (
         <tr>
             <td colSpan="9" style={{padding: 0}}>               
-                <StockTableEditItem props={state} 
-                            saveChange={setState} 
-                            hiddenItem={setItemHidden} 
-                            cancel={() => {
-                                setEditMode(false)
-                            }}
+                <StockTableEditItem 
+                    props={props}  
+                    cancel={() => {
+                        setEditMode(false)
+                    }}
                 />
             </td>
         </tr>
@@ -30,54 +60,107 @@ const StockTableItem = memo(({props}) => {
 
     return (
         <tr key={id}>
-            <td width={200}>{art}</td>
-            <td width={520}>{name}</td>
-            <td width={100}>{quantity}</td>
-            <td width={100}>{quantity_in_shop}</td>
-            <td width={100}>{price}</td>
-            <td width={100}>{retail}</td>
-            <td width={100}>{opt}</td>
+            <td>{art}</td>
+            <td>{name}</td>
+            <td>{quantity}</td>
+            <td>{quantity_in_shop}</td>
+            <td>{price}{currency_symbol}</td>
+            <td>{retail}{currency_symbol}</td>
+            <td>{opt}{currency_symbol}</td>
             <td>
                 <Images img1={image1} img2={image2} img3={image3}/>
             </td>
-            <td width={60}>
-                <button className="stock-table__btn-edit"
-                        onClick={() => {
-                            setEditMode(true)      
-                        }}
+            <td style={{textAlign: 'right'}}>
+                <button 
+                    className="stock-table__btn-edit"
+                    onClick={() => {
+                        setEditMode(true)      
+                    }}
                 ><EditIcon/></button>
             </td> 
         </tr>
     )
 })
 
-export const StockTable = memo(({items, hiddenHead = false}) => {
+export const StockTable = memo(({fetchProps, hiddenHead = false}) => {
+    const { 
+        data = [], 
+        isFetching,
+        isError, 
+        error 
+    } = fetchProps;  
+
     return (
         <div className="stock-table">
             <table>
-                {   !hiddenHead &&
-                    <thead>
-                        <tr>
-                            <th>Код</th>
-                            <th>Наименование</th>
-                            <th>Склад</th>
-                            <th>Магазин</th>
-                            <th>Закупка</th>
-                            <th>Розница</th>
-                            <th>Опт</th>
-                            <th>Изображение</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                }
+                { !hiddenHead && <TableHead/> }
                 <tbody>
                     {
-                        items.length == 0
-                        ? <tr><td>Нет элементов</td></tr>
-                        : items.map(item => <StockTableItem props={item} key={item.id}/>)
+                        data.length == 0 && 
+                        !isFetching &&
+                        !isError &&
+                        <tr><td width={200}>Таких товаров нет</td></tr>
+                    }
+                    {
+                        data.length != 0 && 
+                        data &&
+                        data.map(item => 
+                            <TableItem 
+                                props={item} 
+                                key={item.id}
+                            />
+                        )                      
                     } 
                 </tbody>
             </table>
+            { isFetching && <Loading/> }
+            { isError && <Error error={error}/> }
         </div>
+    )
+})
+
+export const StockTableInfiniteScroll = memo(({fetchProps, hiddenHead = false}) => {
+    const { 
+        data = {
+            count: null,
+            results: null
+        }, 
+        isFetching,
+        isError, 
+        error 
+    } = fetchProps;  
+
+    return (
+        <InfiniteScroll
+            page="stock"
+            count={data.count}
+            hasMore={!isFetching && !isError}
+        >
+            <div className="stock-table">
+                <table>
+                    { !hiddenHead && <TableHead/> }
+                    <tbody>
+                        {
+                            data.results?.length == 0 && 
+                            !isFetching &&
+                            !isError &&
+                            <tr><td width={200}>Таких товаров нет</td></tr>
+                        }
+                        {
+                            data.results?.length != 0 && 
+                            data.results &&
+                            data.results.map(item => 
+                                <TableItem 
+                                    props={item} 
+                                    key={item.id}
+                                />
+                            )                      
+                        } 
+                    </tbody>
+                </table>
+                { isFetching && <Loading/> }
+                { isError && <Error error={error}/> }
+            </div>
+        </InfiniteScroll>  
     )
 })

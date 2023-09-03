@@ -10,11 +10,11 @@ import { Error } from '../error/Error';
 import { ReactComponent as SaveIcon } from "../../assets/save.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
 
-import "./stockTableCreateItems.scss";
+import "./stockCreateItems.scss";
 
 const SUPPORTED_FORMATS = ".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel";
 
-export const StockTableCreateItems = ({page}) => { 
+export const StockCreateItems = ({page}) => { 
     const dispatch = useDispatch();
     const inputFileRef = useRef();
 

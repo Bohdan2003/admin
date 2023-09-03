@@ -1,0 +1,12 @@
+@import "../../style/vars";
+
+.range-calendar{
+    @extend %calendar;
+    .react-calendar{
+        position: relative;
+        z-index: 30;
+        border: 1px solid #E9E9E9;
+        padding: 20px 30px 40px;
+        border-radius: 24px;
+    }
+}

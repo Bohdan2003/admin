@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { showScroll } from "../../utils/helper";
 import { Formik, Form, Field } from 'formik';
 import { clearCart } from "./cartSlice";
+import { resetPage } from "../infiniteScroll/infiniteScrollSlice";
 import { useSaveCartMutation } from "../../api";
 
 import { ReactComponent as ExitIcon } from "../../assets/arrow-exit.svg";
@@ -12,7 +13,7 @@ import "./cart.scss";
 
 export const Cart = memo(({cartRef}) => {
     const dispatch = useDispatch();
-    const [ saveCart, { isError, error } ] = useSaveCartMutation();
+    const [ saveCart, { isLoading, isError, error } ] = useSaveCartMutation();
     const items = useSelector(state => state.cart.items);
 
     let total = 0;
@@ -22,7 +23,7 @@ export const Cart = memo(({cartRef}) => {
     });
 
     return (
-        <section className="cart" 
+        <section className={`cart`} 
                  ref={cartRef}
                  onClick={e => {
                     if(e.target.classList.contains("cart")){
@@ -30,7 +31,13 @@ export const Cart = memo(({cartRef}) => {
                         e.currentTarget.classList.remove("cart--visible")
                     }
                  }}>
-            <div className="cart__content">
+            <div className={`cart__content 
+                    ${
+                        isLoading 
+                        ? 'cart__content--loading' 
+                        : ''
+                    }`}
+            >
                 <div className="cart__top">
                     <div className="cart__title">Корзина</div>
                     <button className="cart__btn-exit"
@@ -40,7 +47,13 @@ export const Cart = memo(({cartRef}) => {
                             }}
                     ><ExitIcon/></button>
                 </div>
-                <ul className="cart__list">
+                <ul className={`cart__list 
+                    ${
+                        isLoading 
+                        ? 'cart__list--loading' 
+                        : ''
+                    }`}
+                >
                     {items.map(item => <CartItem props={item} key={item.id}/>)}
                 </ul>
                 {
@@ -56,24 +69,30 @@ export const Cart = memo(({cartRef}) => {
                                 price: item.price, 
                                 currency: item.currency, 
                                 buy_price: item.buy_price, 
-                                total: item.total
+                                total: item.total,
+                                filter_id: item.filter_product
                             }))
-                            console.log(values);
-                            console.log( {name: values.name,
-                                product});
+                            
                             saveCart({
                                 name: values.name,
                                 product
                             }).unwrap()
-                                .than(() => {
+                                .then(() => {
                                     dispatch(clearCart());
+                                    dispatch(resetPage('store'));
                                 })
                                 .catch((err) => {
                                     console.log(err);
                                 })
                         }}
                     >
-                        <Form className="cart__bottom-form">
+                        <Form className={`cart__bottom-form
+                            ${
+                                isLoading 
+                                ? 'cart__bottom-form--loading' 
+                                : ''
+                            }`}
+                        >
                             <div className="cart__bottom-title">Итого</div>
                             <div className="cart__initial">
                                 <div className="cart__initial-title">

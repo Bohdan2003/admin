@@ -1,6 +1,6 @@
 @import "../../style/vars";
 
-.store-table{  
+.store-table{ 
     @extend %table;
     &__btn-add,
     &__btn-delete{

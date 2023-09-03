@@ -4,7 +4,7 @@ import { useLoginMutation } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
-import { store } from '../../store';   
+import { api } from '../../api';
 
 import { ReactComponent as ArrowIcon } from '../../assets/login-arrow.svg';
 
@@ -26,9 +26,9 @@ export const LoginPage = () => {
                             .required("Обязательое поле")
                 })}
                 onSubmit={(values) => {
+                    dispatch(api.util.resetApiState());
                     login(values)
                         .then(payload => {
-                            console.log('answer', payload.data.access);
                             dispatch(setToken(payload.data.access))
                             navigate('/');
                         })
