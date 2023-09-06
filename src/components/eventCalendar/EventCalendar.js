@@ -1,29 +1,57 @@
-import { useState } from "react";
-import { useGetCalendarEventsQuery, useCrateCalendarEventMutation } from "../../api";
+import { useState, useEffect, useRef } from "react";
+import { 
+    useGetCalendarEventsQuery, 
+    useCreateCalendarEventMutation 
+} from "../../api";
 import { convertDate } from "../../utils/helper";
 import { ConverIntoFloatNumber } from "../../utils/helper";
+import { useDispatch } from "react-redux";
 import * as yup from 'yup';
+import { api } from "../../api";
 
+import { Error } from "../error/Error"
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Calendar from 'react-calendar';
 
 import "./eventCalendar.scss";
 
+const useClickOutside = (ref, callback) => {
+    const handleClick = e => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        callback();
+      }
+    };
+    useEffect(() => {
+      document.addEventListener('click', handleClick);
+      return () => {
+        document.removeEventListener('click', handleClick);
+      };
+    });
+  };
+
 export const EventCalendar = () => {
+    const dispatch = useDispatch();
+    const calendarRef = useRef();
+    useClickOutside(calendarRef, () => {
+        setVisibilityCalendar(false);
+    });
+
     const [visibilityCalendar, setVisibilityCalendar] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [eventValue, setEventValue] = useState(0);
     const { 
-        data: events = [], 
-        isFetching, 
-        isError, 
-        error 
+        data: events = []
     } = useGetCalendarEventsQuery();
     const [
-        createEvent
-    ] = useCrateCalendarEventMutation();
+        createEvent,
+        {
+            isFetching, 
+            isError, 
+            error 
+        }
+    ] = useCreateCalendarEventMutation();
     
-    const handleDayClick = (date, event) => {
+    const handleDayClick = (date) => {
         setSelectedDate(date);
         const dateEvents = getEventsForDate(date);
         if(dateEvents.length > 0) {
@@ -37,8 +65,13 @@ export const EventCalendar = () => {
         return events.filter(event => event.date == convertDate(date));
     };
 
+    if(isError) return <Error error={error}/>
+
     return (
-        <div className="event-calendar">
+        <div 
+            className="event-calendar"
+            ref={calendarRef}
+        >
             <button 
                 className="event-calendar__btn"
                 onClick={() => {
@@ -49,7 +82,16 @@ export const EventCalendar = () => {
             </button>
             {
                 visibilityCalendar &&
-                <div className="event-calendar__box">
+                <div 
+                    className={`
+                        event-calendar__box
+                        ${
+                            isFetching 
+                            ? 'event-calendar__box--disabled'
+                            : ''
+                        }
+                    `}
+                >
                     <Calendar
                         value={selectedDate}
                         onClickDay={handleDayClick}
@@ -72,7 +114,16 @@ export const EventCalendar = () => {
                             createEvent({
                                 value: values.value,
                                 date: convertDate(selectedDate)
-                            })
+                            }).unwrap()
+                                .then(res => {
+                                    setEventValue(res.value)
+                                    dispatch(api.util.updateQueryData(
+                                        'getCalendarEvents', 
+                                        undefined, 
+                                        (draftPosts) => [...draftPosts, res]
+                                    ))
+                                })
+                                .catch(err => { console.log(err); })
                         }}
                     >
                         {({setFieldValue, values}) => (
@@ -83,7 +134,10 @@ export const EventCalendar = () => {
                                         htmlFor="event-calendar__input"
                                     >Доп. расходы</label>
                                     <button
-                                        className={`event-calendar__form-btn
+                                        className={`
+                                            event-calendar__form-btn
+                                            values.value = ${values.value}
+                                            eventValue = ${eventValue}
                                             ${
                                                 values.value == eventValue
                                                 ? 'event-calendar__form-btn--hidden'

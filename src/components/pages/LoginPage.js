@@ -1,4 +1,4 @@
-import { setToken } from './loginSlice';
+import { setSession } from './loginSlice';
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../../api';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +29,10 @@ export const LoginPage = () => {
                     dispatch(api.util.resetApiState());
                     login(values)
                         .then(payload => {
-                            dispatch(setToken(payload.data.access))
+                            dispatch(setSession({
+                                token: payload.data.access,
+                                role: payload.data.role
+                            }))
                             navigate('/');
                         })
                         .catch(err => {console.log(err)})              

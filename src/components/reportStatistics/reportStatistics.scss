@@ -3,9 +3,13 @@
 .report-statistics{
     margin-bottom: 60px;
     &__list{
-        display: grid;
-        grid-template-columns: repeat(4, 166px);
-        column-gap: 20px;
+        display: flex;
+    }
+    &__item{
+        min-width: 166px;
+    }
+    &__item + &__item{
+        margin-left: 20px;
     }
     &__subtitle{
         margin-bottom: 8px;

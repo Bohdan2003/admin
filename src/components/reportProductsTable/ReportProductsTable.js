@@ -11,11 +11,15 @@ import "./reportProductsTable.scss";
 
 const page = "reportProducts";
 
-const TableItem = memo(({art, name, id}) => {
+const TableItem = memo(({art, name, cat, average, quantity, price}) => {
     return (
         <tr>
             <td>{art}</td>
             <td>{name}</td>
+            <td>{cat}</td>
+            <td>{average}</td>
+            <td>{quantity}</td>
+            <td>{price}</td>
         </tr>
     )
 })
@@ -30,7 +34,7 @@ export const ReportProductsTable = memo(() => {
         isError, 
         error 
     } = useGetReportProductsQuery({search, dateRange});
-    
+
     return (
         <div className="report-products">
             <Search
@@ -53,8 +57,8 @@ export const ReportProductsTable = memo(() => {
                 </thead>
                 <tbody>
                     {
-                        data.basket_model?.length > 0 && data.basket_model &&
-                        data.basket_model.map((item, i) => <TableItem {...item} key={i}/>)
+                        data.length > 0 && data &&
+                        data.map((item, i) => <TableItem {...item} key={i}/>)
                     }
                 </tbody>
             </table>

@@ -10,4 +10,10 @@
     button{
         @extend %btn;
     }
+    .child-table{
+        padding-bottom: 60px;
+        tr:last-child::after{
+            display: none;
+        }
+    }
 }

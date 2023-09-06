@@ -40,6 +40,7 @@ const TableItem = memo(({props}) => {
         art, 
         name, 
         quantity, 
+        previous_quantity,
         quantity_in_shop, 
         opt, 
         retail, 
@@ -53,7 +54,10 @@ const TableItem = memo(({props}) => {
         <tr key={id}>
             <td>{art}</td>
             <td>{name}</td>
-            <td>{quantity}</td>
+            <td>
+                {quantity} 
+                {previous_quantity > 0 && <><br/>"{previous_quantity}"</>}   
+            </td>
             <td>{quantity_in_shop}</td>
             <td>{retail}</td>
             <td>{opt}</td>

@@ -307,7 +307,7 @@ export const StockCreateItem = ({page}) => {
                         <div 
                             className={`
                                 create-item__select 
-                                ${errors.currency ? 'create-item__select--outline' : ''}`
+                                ${errors.currency && touched.currency ? 'create-item__select--outline' : ''}`
                             }
                         >
                             <CurrencySelect 

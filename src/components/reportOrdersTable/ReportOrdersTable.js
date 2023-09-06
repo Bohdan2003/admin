@@ -13,15 +13,17 @@ import "./reportOrdersTable.scss"
 
 const page = 'reportOrders';
 
-const TableItem = memo(({number, date, total_price, total_quantity, username, children}) => {
+const TableItem = memo(({number, date, totalprice, total_quantity, username, children}) => {
     const [productVisibility, setProductVisibility] = useState(false)
 
     return (
         <>
-            <tr className={`${productVisibility ? 'no-border' : ''}`}>
+            <tr 
+                className={`${productVisibility ? 'no-border' : ''}`}
+            >
                 <td>{number}</td>
                 <td>{date.slice(0,10).replace(/-/g, '.')}</td>
-                <td>{total_price}</td>
+                <td>{totalprice}</td>
                 <td>{total_quantity}</td>
                 <td>{username}</td>
                 <td>
@@ -36,9 +38,9 @@ const TableItem = memo(({number, date, total_price, total_quantity, username, ch
             </tr>
             {
                 productVisibility &&
-                <tr className="no-border">
-                    <td colSpan="5">
-                        <table>
+                <tr>
+                    <td colSpan="6">
+                        <table className="child-table">
                             <tbody>                               
                                 <tr>
                                     <th>Код</th>
@@ -48,8 +50,8 @@ const TableItem = memo(({number, date, total_price, total_quantity, username, ch
                                     <th>Общая стоимость</th>
                                 </tr>
                                 {
-                                    children.map(({art, currency, name, price, quantity}) => (
-                                        <tr>
+                                    children.map(({art, currency, name, price, quantity}, i) => (
+                                        <tr key={i}>
                                             <td>{art}</td>
                                             <td>{name}</td>
                                             <td>{quantity}</td>
@@ -93,7 +95,7 @@ export const ReportOrdersTable = memo(() => {
                         <th width={150}>Номер</th>
                         <th width={200}>Дата</th>
                         <th width={200}>Сумма заказа</th>
-                        <th width={200}>Кол-во товаров</th>
+                        <th width={200}>Кол-во наименований</th>
                         <th width={450}>Инициалы</th>
                         <th width={26}></th>
                     </tr>

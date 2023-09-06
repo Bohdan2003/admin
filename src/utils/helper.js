@@ -1,3 +1,7 @@
+export const NumberFixed = (num) => {
+    return Number.parseFloat(num).toFixed(2)
+}
+
 export const setPageIfTableEnd = ({setPage, page, data, isFetching, isError}) => {
     const pageCount = 10;
 

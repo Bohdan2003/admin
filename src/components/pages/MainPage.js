@@ -16,6 +16,7 @@ export const MainPage = () => {
             case 'store': return <Store/>
             case 'stock': return <Stock/>
             case 'report': return <Report/>
+            default: return <Store/>
         }
     }
 

@@ -88,9 +88,6 @@ export const StockTableEditItem = ({
                 opt: yup.string()
                         .min(0.00001, true)
                         .required(true),
-                //minimum
-                min_quantity: yup.number()
-                        .required(true),
                 //currency
                 currency: yup.string()
                         .required(true)
@@ -339,9 +336,26 @@ export const StockTableEditItem = ({
                         />
                     </div>
 
+                    <div className={`edit-item__prequantity`}>
+                        <div className="edit-item__title">
+                            Докуплено
+                        </div>
+                        <Field 
+                            className={`
+                                edit-item__input 
+                                ${setErrorClass(errors.previous_quantity && touched.previous_quantity)}
+                            `}
+                            name="previous_quantity" 
+                            type="text" 
+                            onChange={(e) => {
+                                setFieldValue("previous_quantity", ConverIntoIntNumber(e.target.value));
+                            }}
+                        />
+                    </div>
+
                     <div className="edit-item__preprice">
                         <div className="edit-item__title">
-                            Пред. цена
+                            Цена
                         </div>
                         <Field 
                             className={`
@@ -357,24 +371,7 @@ export const StockTableEditItem = ({
                                 );
                             }}
                         />
-                    </div> 
-
-                    <div className={`edit-item__prequantity`}>
-                        <div className="edit-item__title">
-                            Пред. кол.
-                        </div>
-                        <Field 
-                            className={`
-                                edit-item__input 
-                                ${setErrorClass(errors.previous_quantity && touched.previous_quantity)}
-                            `}
-                            name="previous_quantity" 
-                            type="text" 
-                            onChange={(e) => {
-                                setFieldValue("previous_quantity", ConverIntoIntNumber(e.target.value));
-                            }}
-                        />
-                    </div> 
+                    </div>  
                 </Form>
             )}
         </Formik>

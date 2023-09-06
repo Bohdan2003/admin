@@ -11,7 +11,7 @@ export const api = createApi({
     baseUrl: SERVER_URL,
     prepareHeaders: (headers, {getState}) => {
       const token = getState().login.token;
-
+      // console.log(token);
       headers.set('Authorization', `Bearer ${token}`);
 
       return headers;
@@ -24,9 +24,9 @@ export const api = createApi({
     'Cart', 
     'Currency', 
     'Added', 
+    'AddedItems',
     'Eddit', 
-    'Delete', 
-    'Event'
+    'Delete'
   ],
   endpoints: (builder) => ({
     login: builder.mutation({
@@ -80,13 +80,13 @@ export const api = createApi({
       query: () => '/admin/product/min_quantity/',
       providesTags: [
         'Added', 
-        'Eddit',
+        'AddedItems',
         'Cart'
       ]
     }),   
     getLastAddedItems: builder.query({
       query: () => '/admin/product/last_product/',
-      providesTags: ['Cart']
+      providesTags: ['AddedItems', 'Cart']
     }),
     editStockItem: builder.mutation({
       query: (payload) => ({
@@ -110,7 +110,7 @@ export const api = createApi({
         method: "POST",
         body: payload
       }),
-      invalidatesTags: ['Added']
+      invalidatesTags: ['AddedItems']
     }),
     deleteStockItem: builder.mutation({
       query: (payload) => ({
@@ -198,23 +198,21 @@ export const api = createApi({
     }),
     getReportOrders: builder.query({
       query: payload => `/admin/report/get_info/basket/?start_date=${payload.dateRange[0]}&end_date=${payload.dateRange[1]}&search=${payload.search}&`,
-      providesTags: ['Cart']
+      providesTags: ['Cart', 'Currency']
     }),
     getReportProducts: builder.query({
       query: payload => `/admin/report/get_info/product/?start_date=${payload.dateRange[0]}&end_date=${payload.dateRange[1]}&search=${payload.search}&`,
-      providesTags: ['Cart']
+      providesTags: ['Cart', 'Currency']
     }),
     getCalendarEvents: builder.query({
-      query: `/admin/report/additional_expenses/`,
-      providesTags: ['Event']
+      query: () => `/admin/report/additional_expenses/`
     }),
-    crateCalendarEvent: builder.mutation({
+    createCalendarEvent: builder.mutation({
       query: payload => ({
         url: `/admin/report/additional_expenses/create/`,
-        method:'post',
+        method:'POST',
         body: payload
-      }),
-      invalidatesTags: ['Event']
+      })
     }),
   }),
 })
@@ -244,5 +242,5 @@ export const {
   useGetReportOrdersQuery,
   useGetReportProductsQuery,
   useGetCalendarEventsQuery,
-  useCrateCalendarEventMutation
+  useCreateCalendarEventMutation
 } = api

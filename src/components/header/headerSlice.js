@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    // activeSection: "stock"
-    activeSection: "stock"
+    activeSection: "store"
 }
 
 export const headerSlice = createSlice({

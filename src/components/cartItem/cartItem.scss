@@ -1,0 +1,108 @@
+@import "../../style/vars";
+
+.cart-item{
+    position: relative;
+    list-style: none;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #E9E9E9;
+    margin-bottom: 20px;
+    &:last-child{
+        margin-bottom: 0;
+    }
+    &__btn-delete{
+        position: absolute;
+        top: 0;
+        right: 0;
+        @extend %btn;
+    }
+    .images{
+        margin-bottom: 12px;
+    }
+    &__cod{
+        margin-bottom: 16px;
+    }
+    &__name{
+        margin-bottom: 32px;
+    }
+    &__form{
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        row-gap: 16px;
+        column-gap: 18px;
+    }
+    &__field:nth-child(2){
+        grid-column: 2;
+    }
+    &__field:nth-child(3){
+        grid-column: 3;
+    }
+    &__field:nth-child(4){
+        grid-column: 4;
+    }
+    &__subtitle,
+    &__field-btn{
+        margin-bottom: 8px;
+        @extend %subtitle;
+    } 
+    &__field-btn{
+        @extend %btn;
+    }
+    &__field-btn--active{
+        opacity: 1;
+        color: $cian;
+    }
+    &__input{
+        border: 1px solid transparent;
+        border-radius: 4px;
+        width: 100%;
+    } 
+    &__input--outline{
+        border: 1px solid $violet;
+    }  
+    &__btns{
+        display: none;
+        grid-column: 5;
+        justify-content: flex-end;
+    }
+    &__btns--visible{
+        display: flex;
+    }
+    &__btn-save,
+    &__btn-cancel{
+        width: 24px;
+        height: 24px;
+        display: grid;
+        place-items: center;
+        @extend %btn;
+    }
+    &__btn-save{
+        margin-right: 8px;
+    }
+    &__amount{
+        grid-column: 1 / 3; 
+        display: flex;
+    }
+    &__amount-btn{
+        @extend %btn;
+    }
+    &__amount-input{
+        border: 1px solid transparent;
+        border-radius: 4px;
+        border: none;
+        width: 58px;
+        text-align: center;
+        margin: 0 8px;       
+    }
+    &__amount-input--outline{
+        border: 1px solid $violet;
+    }   
+    &__total{
+        border: 1px solid transparent;
+        font-size: 20px;
+        grid-column: 3 / 5; 
+        border-radius: 4px;
+    }
+    &__total--outline{
+        border: 1px solid $violet;
+    }
+}

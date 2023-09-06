@@ -61,7 +61,6 @@ export const deleteItem = (name, id) => {
 }
 
 export const addItem = (name, res) => {
-    console.log(res);
     return api.util.updateQueryData(
         name, 
         undefined, 

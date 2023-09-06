@@ -16,6 +16,9 @@
         position: absolute;
         @extend %calendar;
     }
+    &__box--disabled{
+        @extend %section--disabled;
+    }
     .react-calendar{
         padding-bottom: 12px;
         margin-bottom: 12px;

@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { useGetReportStatisticsQuery } from "../../api";
 import { useSelector } from "react-redux";
+import { NumberFixed } from "../../utils/helper";
 
 import { Loading } from "../loading/Loading";
 import { Error } from "../error/Error";
@@ -42,19 +43,19 @@ export const ReportStatistics = memo(() => {
             <ul className="report-statistics__list">
                 <ListItem 
                     title="Общая прибыль" 
-                    value={data.profit}
+                    value={NumberFixed(data.profit)}
                 />
                 <ListItem 
                     title="Себестоимость" 
-                    value={data.income}
+                    value={NumberFixed(data.income)}
                 />
                 <ListItem 
                     title="Доп. расходы" 
-                    value={data.self_cost}
+                    value={NumberFixed(data.self_cost)}
                 />
                 <ListItem 
                     title="Чистая прибыль" 
-                    value={data.total_additional_expenses}
+                    value={NumberFixed(data.total_additional_expenses)}
                 />
             </ul>
         </div>
