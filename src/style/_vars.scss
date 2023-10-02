@@ -64,8 +64,8 @@ $violet: #C79BFF;
     } 
 }
 
-%section--disabled{
-    pointer-events: none;
+%loading{
+    // pointer-events: none;
     position: relative;
     &::before{
         content: '';

@@ -13,7 +13,7 @@ import "./reportOrdersTable.scss"
 
 const page = 'reportOrders';
 
-const TableItem = memo(({number, date, totalprice, total_quantity, username, children}) => {
+const TableItem = memo(({number, date, totalprice, total_quantity, link, username, children}) => {
     const [productVisibility, setProductVisibility] = useState(false)
 
     return (
@@ -26,6 +26,12 @@ const TableItem = memo(({number, date, totalprice, total_quantity, username, chi
                 <td>{totalprice}</td>
                 <td>{total_quantity}</td>
                 <td>{username}</td>
+                <td>
+                    <a 
+                        href={link} 
+                        target="_blank"
+                    >открыть pdf</a>
+                </td>
                 <td>
                     <button 
                         onClick={() => {setProductVisibility(value => !value)}}
@@ -97,6 +103,7 @@ export const ReportOrdersTable = memo(() => {
                         <th width={200}>Сумма заказа</th>
                         <th width={200}>Кол-во наименований</th>
                         <th width={450}>Инициалы</th>
+                        <th width={200}></th>
                         <th width={26}></th>
                     </tr>
                 </thead>

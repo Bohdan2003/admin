@@ -87,7 +87,7 @@ export const EventCalendar = () => {
                         event-calendar__box
                         ${
                             isFetching 
-                            ? 'event-calendar__box--disabled'
+                            ? 'event-calendar__box--loading'
                             : ''
                         }
                     `}

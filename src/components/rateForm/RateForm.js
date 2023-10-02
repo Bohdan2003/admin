@@ -64,21 +64,33 @@ export const RateForm = ({ fetchProps, props, cancel,
                         ${  
                             isLoading 
                             // || isLoadingDeleting 
-                            ? 'rate-form--disabled' 
+                            ? 'rate-form--loading' 
                             : ''
                         }
                     `}
                 >
-                    <Field className={`rate-form__input 
-                                        ${errors.name && touched.name ? 'rate-form__input--outline' : ''}
-                                    `}
+                    <Field 
+                        className={`
+                            rate-form__input 
+                            ${
+                                errors.name && touched.name 
+                                ? 'rate-form__input--outline' 
+                                : ''
+                            }
+                        `}
                         name="name"
                         placeholder="USD"
                         type="text"
                     />
-                    <Field className={`rate-form__input 
-                                        ${errors.price_in_ua && touched.price_in_ua ? 'rate-form__input--outline' : ''}
-                                    `}
+                    <Field 
+                        className={`
+                            rate-form__input 
+                            ${
+                                errors.price_in_ua && touched.price_in_ua 
+                                ? 'rate-form__input--outline' 
+                                : ''
+                            }
+                        `}
                         name="price_in_ua"
                         placeholder="8"
                         type="text"
@@ -86,9 +98,15 @@ export const RateForm = ({ fetchProps, props, cancel,
                             setFieldValue("price_in_ua", ConverIntoFloatNumber(e.target.value));
                         }}
                     />
-                    <Field className={`rate-form__input 
-                                        ${errors.symbol && touched.symbol ? 'rate-form__input--outline' : ''}
-                                    `}
+                    <Field 
+                        className={`
+                            rate-form__input 
+                            ${
+                                errors.symbol && touched.symbol 
+                                ? 'rate-form__input--outline' 
+                                : ''
+                            }
+                        `}
                         name="symbol"
                         placeholder="$"
                         type="text"
@@ -113,24 +131,32 @@ export const RateForm = ({ fetchProps, props, cancel,
                                 <BucketIcon/>
                             </button>
                         } */}
-                        <button className={`rate-form__btn-save ${setHiddenClass(isError, cancel, values, props)}`}
-                                type="submit"
+                        <button 
+                            className={`
+                                rate-form__btn-save 
+                                ${setHiddenClass(isError, cancel, values, props)}
+                            `}
+                            type="submit"
                         >
                             <SaveIcon/>
                         </button>
-                        <button className={`rate-form__btn-cancel ${setHiddenClass(isError, cancel, values, props)}`} 
-                                onClick={() => {
-                                    if(cancel) {
-                                        cancel();
-                                    } else {
-                                        setValues({
-                                            name,
-                                            price_in_ua,
-                                            symbol
-                                        })
-                                    }
-                                }}
-                                type="button"
+                        <button 
+                            className={`
+                                rate-form__btn-cancel 
+                                ${setHiddenClass(isError, cancel, values, props)}
+                            `} 
+                            onClick={() => {
+                                if(cancel) {
+                                    cancel();
+                                } else {
+                                    setValues({
+                                        name,
+                                        price_in_ua,
+                                        symbol
+                                    })
+                                }
+                            }}
+                            type="button"
                         >
                             <DeleteIcon/>
                         </button>

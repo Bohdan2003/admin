@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { setActiveTable } from './reportSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -48,6 +49,10 @@ const Table = () => {
 }
 
 const Report = () => {
+    useEffect(() => {
+        window.scrollTo({ top: 0 });
+    }, []);
+
     return (
         <section className="report">
             <div className="report__top">

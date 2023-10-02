@@ -4,8 +4,8 @@
     display: grid;
     grid-template-columns: 100px 100px 100px 50px;
     column-gap: 20px;
-    &--disabled{
-        @extend %section--disabled;
+    &--loading{
+        @extend %loading;
         &::before{
             grid-column: 1 / 5;
         }

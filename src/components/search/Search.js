@@ -1,4 +1,4 @@
-import "./search.scss"
+import "./search.scss";
 
 export const Search = ({placeholder, disabled = false, value, setValue}) => {
     return (
@@ -9,8 +9,9 @@ export const Search = ({placeholder, disabled = false, value, setValue}) => {
                 placeholder={placeholder}
                 value={value}
                 onChange={e => {
-                    if(!disabled)
-                        setValue(e.target.value)
+                    if(!disabled) {
+                        setValue(e.target.value);
+                    }                                     
                 }}
             />
         </div>

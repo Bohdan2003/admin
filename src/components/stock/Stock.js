@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setActiveSection, removeActiveSection } from "./stockSlice";
 
@@ -32,6 +32,10 @@ const StockBtn = ({name, text}) => {
 const Stock = () => {
     const activeSection = useSelector(state => state.stock.activeSection);
     const filtersRef = useRef();
+
+    useEffect(() => {
+        window.scrollTo({ top: 0 });
+    }, []);
 
     return (
         <section className="stock">

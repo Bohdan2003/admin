@@ -71,7 +71,7 @@ export const StockCreateItems = ({page}) => {
                 <Form className={`create-items 
                     ${
                         isLoading 
-                        ? 'create-items--disabled'
+                        ? 'create-items--loading'
                         : ''
                     }
                     `}

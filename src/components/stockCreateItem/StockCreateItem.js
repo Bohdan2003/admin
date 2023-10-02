@@ -5,7 +5,7 @@ import { ConverIntoIntNumber, ConverIntoFloatNumber } from '../../utils/helper';
 import { store } from "../../store";
 import { useDispatch } from 'react-redux';
 import { clearFilters } from '../filters/filtersSlice';
-import { addItem, addItemForInfiniteScroll } from '../../utils/api';
+import { addItem } from '../../utils/api';
 
 import { Error } from '../error/Error';
 import { InputImage } from '../inputImage/InputImage';
@@ -117,7 +117,7 @@ export const StockCreateItem = ({page}) => {
                         create-item
                         ${
                             isLoading 
-                            ? 'create-item--disabled'
+                            ? 'create-item--loading'
                             : ''
                         }
                     `}

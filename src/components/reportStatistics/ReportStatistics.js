@@ -43,19 +43,19 @@ export const ReportStatistics = memo(() => {
             <ul className="report-statistics__list">
                 <ListItem 
                     title="Общая прибыль" 
-                    value={NumberFixed(data.profit)}
+                    value={data.profit}
                 />
                 <ListItem 
                     title="Себестоимость" 
-                    value={NumberFixed(data.income)}
+                    value={data.income}
                 />
                 <ListItem 
                     title="Доп. расходы" 
-                    value={NumberFixed(data.self_cost)}
+                    value={data.self_cost}
                 />
                 <ListItem 
                     title="Чистая прибыль" 
-                    value={NumberFixed(data.total_additional_expenses)}
+                    value={data.total_additional_expenses}
                 />
             </ul>
         </div>

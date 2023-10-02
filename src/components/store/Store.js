@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { hiddenScroll } from "../../utils/helper";
 
 import { FiltersMenu } from "../filterMenu/FIltersMenu";
@@ -13,6 +13,10 @@ const page = 'store';
 const Store = () => {    
     const cartRef = useRef();
     const filtersRef = useRef();
+
+    useEffect(() => {
+        window.scrollTo({ top: 0 });
+    }, []);
 
     return (
         <>

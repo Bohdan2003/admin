@@ -88,12 +88,12 @@ export const Cart = memo(({cartRef}) => {
                                 name: values.name,
                                 product
                             }).unwrap()
-                            .then(() => {
-                                    dispatch(clearCart());
-                                })
-                                .catch((err) => {
-                                    console.log(err);
-                                })
+                            .then(() => {                               
+                                dispatch(clearCart());
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            })
                         }}
                     >
                         <Form 

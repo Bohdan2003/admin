@@ -119,7 +119,7 @@ export const StockTableEditItem = ({
                         ${
                             isLoadingEditing ||
                             isLoadingDeleting
-                            ? 'edit-item--disabled'
+                            ? 'edit-item--loading'
                             : ''
                         }
                     `}

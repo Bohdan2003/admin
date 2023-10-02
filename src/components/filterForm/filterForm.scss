@@ -2,9 +2,6 @@
 
 .filters-add{
     height: 42px;
-    &--disabled{
-        @extend %section--disabled;
-    }
     &__btn{
         display: grid;
         place-items: center;
@@ -12,7 +9,11 @@
         @extend %btn;
     }
     &__form{
+        display: inline-block;
         margin-bottom: 16px;
+    }
+    &__form--loading{
+        @extend %loading;
     }
     &__form-inner{
         display: flex;

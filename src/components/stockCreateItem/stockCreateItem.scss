@@ -1,15 +1,14 @@
 @import "../../style/vars";
 
 .create-item{
-    // width: 100%;
     margin-bottom: 60px;
     display: grid;
     grid-template-columns: 200px 500px 80px 80px 80px 80px 80px auto 60px;
     column-gap: 20px;
     row-gap: 24px;
     padding: 10px 0 60px;
-    &--disabled{
-       @extend %section--disabled;
+    &--loading{
+       @extend %loading;
     }
     &__title{
         @extend %subtitle;
@@ -22,7 +21,6 @@
         background-color: $mint;
         padding: 10px;
         border: 1px solid transparent;
-        // align-items: center;
     }
     &__field--outline{
         border-color: $violet;

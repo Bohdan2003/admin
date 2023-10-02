@@ -11,7 +11,7 @@ import {
     setSubcategory, 
     setTeg, 
     deleteTeg, 
-    clearTags 
+    clearTags
 } from "./filtersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPage } from "../infiniteScroll/infiniteScrollSlice";
@@ -48,7 +48,7 @@ const TegAdd = ({firstItem, filterAddPayload}) => {
 
 const FiltersTab = memo(({page, data = [], title, selectedInput, handleChange, filterAddPayload}) => { 
     const dispatch = useDispatch();
-    const [ deleteFilter ] = useDeleteFilterMutation();   
+    const [ deleteFilter, { isLoading } ] = useDeleteFilterMutation();   
     const { editMode } = useSelector(state => state.filters[page]); 
     const firstItem = (data.length == 0);
     
@@ -60,13 +60,19 @@ const FiltersTab = memo(({page, data = [], title, selectedInput, handleChange, f
             <div className="filters__inputs">
                 {
                     data.map(item => {
-                        const checked = selectedInput == item.id;
+                        const isChecked = selectedInput == item.id;
                         return (
-                            <label className="filters__input" key={item.id}>
+                            <label 
+                                className={`
+                                    filters__input
+                                    ${isLoading ? 'filters__input--loading' : '' }
+                                `}
+                                key={item.id}
+                            >
                                 <input 
                                     type="checkbox" 
                                     value={item.id}
-                                    checked={checked}
+                                    checked={isChecked}
                                     onChange={() => {
                                         handleChange(item);
                                     }}
@@ -74,7 +80,7 @@ const FiltersTab = memo(({page, data = [], title, selectedInput, handleChange, f
                                 <span 
                                     className={`filters__span 
                                         ${
-                                            checked 
+                                            isChecked 
                                             ? "filters__span--selected" 
                                             : ""
                                         }
@@ -86,6 +92,9 @@ const FiltersTab = memo(({page, data = [], title, selectedInput, handleChange, f
                                     <button 
                                         className="filters__input-delete"
                                         onClick={() => {
+                                            if(isChecked) {
+                                                handleChange(item);
+                                            }
                                             deleteFilter(item.id).unwrap()
                                                 .then(() => {
                                                     dispatch(setSubcategory({
@@ -240,7 +249,12 @@ export const Filters = memo(({page = '', filtersRef = null, visible = false, hid
         }
     } = useSelector(state => state.filters[page]);
 
-    const { data: categoriesData, isLoading, isError, error } = useGetFiltersQuery();
+    const { 
+        data: categoriesData, 
+        isLoading, 
+        isError, 
+        error 
+    } = useGetFiltersQuery();
 
     return (
         <div className={`filters ${visible ? 'filters--visible' : ''}`} ref={filtersRef}>

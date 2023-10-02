@@ -10,6 +10,11 @@
     button{
         @extend %btn;
     }
+    a{
+        cursor: pointer;
+        text-decoration: none;
+        color: $cian;
+    }
     .child-table{
         padding-bottom: 60px;
         tr:last-child::after{

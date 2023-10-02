@@ -15,12 +15,12 @@ export const FilterForm = ({fetch, firstItem = false, filterAddPayload}) => {
 
     useEffect(() => {
         setVisibleForm(firstItem);
-    }, [firstItem])
+    }, [firstItem]);
 
     if(isError) return <Error error={error}/>
 
     return (
-        <div className={`filters-add ${isLoading && 'filters-add--disabled'}`}>
+        <div className="filters-add">
             {
                 visibleForm
                 ?
@@ -38,12 +38,18 @@ export const FilterForm = ({fetch, firstItem = false, filterAddPayload}) => {
                             ...filterAddPayload
                         }).unwrap()
                             .then(() => {
+                                setVisibleForm(false);
                                 resetForm();
                             })
                             .catch()              
                     }}
                 >
-                    <Form className='filters-add__form'>
+                    <Form
+                        className={`
+                            filters-add__form 
+                            ${isLoading && 'filters-add__form--loading'}
+                        `}
+                    >
                         <div className="filters-add__form-inner">
                             <Field 
                                 className="filters-add__input"
