@@ -10,22 +10,22 @@ import * as yup from 'yup';
 import { api } from "../../api";
 
 import { Error } from "../error/Error"
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import Calendar from 'react-calendar';
 
 import "./eventCalendar.scss";
 
 const useClickOutside = (ref, callback) => {
     const handleClick = e => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        callback();
-      }
+        if (ref.current && !ref.current.contains(e.target)) {
+            callback();
+        }
     };
     useEffect(() => {
-      document.addEventListener('click', handleClick);
-      return () => {
-        document.removeEventListener('click', handleClick);
-      };
+        document.addEventListener('click', handleClick);
+        return () => {
+            document.removeEventListener('click', handleClick);
+        };
     });
   };
 

@@ -13,7 +13,7 @@ import "./loginPage.scss";
 export const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [ login, { isLoading, error = { erorr: "" } } ] = useLoginMutation();
+    const [ login, { isLoading, error = "" } ] = useLoginMutation();
 
     return (
         <section className="login">
@@ -25,7 +25,7 @@ export const LoginPage = () => {
                     password: yup.string()
                             .required("Обязательое поле")
                 })}
-                onSubmit={(values) => {
+                onSubmit={(values, { setFieldError }) => {
                     dispatch(api.util.resetApiState());
                     login(values)
                         .then(payload => {
@@ -35,35 +35,49 @@ export const LoginPage = () => {
                             }))
                             navigate('/');
                         })
-                        .catch(err => {console.log(err)})              
+                        .catch(err => { 
+                            console.log(err);
+                        })              
                 }}
             >
                 <Form className='login__form'>
                     <div className="login__name">
-                        <Field className="login__name-input" 
-                               placeholder="Логин"
-                               type="text"
-                               name="username"/>
-                        <ErrorMessage className="login__error error"  
-                                      name="username" 
-                                      component="div"/>
+                        <Field 
+                            className="login__name-input" 
+                            placeholder="Логин"
+                            type="text"
+                            name="username"
+                        />
+                        <ErrorMessage 
+                            className="login__error error"  
+                            name="username" 
+                            component="div"
+                        />
                     </div>
 
                     <div className="login__password">
-                        <Field className="login__password-input" 
-                               placeholder="Пароль"
-                               type="text" 
-                               name="password"/>
-                        <ErrorMessage className="login__error error" 
-                                      name="password" 
-                                      component="div"/>
+                        <Field 
+                            className="login__password-input" 
+                            placeholder="Пароль"
+                            type="text" 
+                            name="password"
+                        />
+                        <ErrorMessage 
+                            className="login__error error" 
+                            name="password" 
+                            component="div"
+                        />
                     </div>
 
                     <div className="login__box">
                         <button className="login__btn" type="submit" disabled={isLoading}>
                             <ArrowIcon/>
                         </button>
-                        <div className="login__error error">{error.error}</div>
+                        <div   
+                            className="login__error error" 
+                        >
+                            {error?.data?.detail}
+                        </div>
                     </div>
                 </Form>
             </Formik>    

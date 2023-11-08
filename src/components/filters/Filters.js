@@ -16,6 +16,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { resetPage } from "../infiniteScroll/infiniteScrollSlice";
 import { useCreateTegMutation, useCreateFilterMutation } from "../../api";
+import { api } from "../../api";
 
 import { Loading } from "../loading/Loading"
 import { Error } from "../error/Error";
@@ -24,29 +25,29 @@ import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
 import { FilterForm } from "../filterForm/FilterForm";
 import "./filters.scss";
 
-const FilterAdd = ({firstItem, filterAddPayload}) => {
+const FilterAdd = ({firstItem, formProperties}) => {
     const fetch = useCreateFilterMutation();
     return (
         <FilterForm 
             fetch={fetch}
             firstItem={firstItem} 
-            filterAddPayload={filterAddPayload}
+            formProperties={formProperties}
         />
     )
 }
 
-const TegAdd = ({firstItem, filterAddPayload}) => {
+const TegAdd = ({firstItem, formProperties}) => {
     const fetch = useCreateTegMutation();
     return (
         <FilterForm 
             fetch={fetch}
             firstItem={firstItem} 
-            filterAddPayload={filterAddPayload}
+            formProperties={formProperties}
         />
     )
 }
 
-const FiltersTab = memo(({page, data = [], title, selectedInput, handleChange, filterAddPayload}) => { 
+const FiltersTab = memo(({page, type = null, data = [], title, selectedInput, handleChange, formProperties}) => { 
     const dispatch = useDispatch();
     const [ deleteFilter, { isLoading } ] = useDeleteFilterMutation();   
     const { editMode } = useSelector(state => state.filters[page]); 
@@ -92,15 +93,27 @@ const FiltersTab = memo(({page, data = [], title, selectedInput, handleChange, f
                                     <button 
                                         className="filters__input-delete"
                                         onClick={() => {
-                                            if(isChecked) {
-                                                handleChange(item);
-                                            }
                                             deleteFilter(item.id).unwrap()
                                                 .then(() => {
-                                                    dispatch(setSubcategory({
-                                                        page,
-                                                        id: null
-                                                    }));
+                                                    dispatch(api.util.resetApiState(`
+                                                        getStoreItems 
+                                                        getStockItems
+                                                        getEndingItems
+                                                        getLastAddedItems
+                                                    `)); 
+                                                    dispatch(resetPage('store'));
+                                                    dispatch(resetPage('stock'));
+                                                    if(type == "Category") {
+                                                        dispatch(setCategory({
+                                                            page,
+                                                            id: null
+                                                        }));
+                                                    } else if(type == "Subcategory" || type == "Category") {
+                                                        dispatch(setSubcategory({
+                                                            page,
+                                                            id: null
+                                                        }));
+                                                    }
                                                 })
                                                 .catch(e => {console.log(e);});
                                         }}        
@@ -117,7 +130,7 @@ const FiltersTab = memo(({page, data = [], title, selectedInput, handleChange, f
                 editMode && 
                 <FilterAdd
                     firstItem={firstItem} 
-                    filterAddPayload={filterAddPayload}
+                    formProperties={formProperties}
                 />
             }
         </div>
@@ -205,7 +218,10 @@ const FiltersTags = memo(({page}) => {
                                                 editMode 
                                                 ? <button className="filters__input-delete"
                                                         onClick={() => {
-                                                            deleteTegOnServer(child.id);
+                                                            deleteTegOnServer(child.id).unwrap()
+                                                                .then(() => {
+                                                                    dispatch(clearTags({page}));
+                                                                });
                                                         }}        
                                                   >
                                                     <BucketIcon/>
@@ -219,21 +235,26 @@ const FiltersTags = memo(({page}) => {
                         </div>
                         {
                             editMode &&
-                            <TegAdd createTeg={createTeg} filterAddPayload={{
-                                level_teg: 2,
-                                parent_teg: item.id,
-                               }}/>
-                            
+                            <TegAdd 
+                                createTeg={createTeg} 
+                                formProperties={{
+                                    level_teg: 2,
+                                    parent_teg: item.id,
+                                }}
+                            />            
                         }
                     </div>)
                 )
             }
             {
                 editMode &&
-                <TegAdd firstItem={true} filterAddPayload={{
-                    level_teg: 1,
-                    parent_filter: subcategory,
-                }}/>
+                <TegAdd 
+                    firstItem={true} 
+                    formProperties={{
+                        level_teg: 1,
+                        parent_filter: subcategory,
+                    }}
+                />
                 
             }
         </div>
@@ -255,7 +276,7 @@ export const Filters = memo(({page = '', filtersRef = null, visible = false, hid
         isError, 
         error 
     } = useGetFiltersQuery();
-
+  
     return (
         <div className={`filters ${visible ? 'filters--visible' : ''}`} ref={filtersRef}>
             <button className="filters__btn-mode"
@@ -271,10 +292,11 @@ export const Filters = memo(({page = '', filtersRef = null, visible = false, hid
                 : 
                 <FiltersTab     
                     page={page}
+                    type="Category"
                     data={categoriesData}
                     title="Категория"
                     selectedInput={category}
-                    filterAddPayload={{
+                    formProperties={{
                         level_filter: 1
                     }}
                     handleChange={item => {
@@ -302,13 +324,15 @@ export const Filters = memo(({page = '', filtersRef = null, visible = false, hid
             }
             {
                 category &&
+                categoriesData &&
                 <FiltersTab 
                     page={page}
-                    data={categoriesData[categoriesData.findIndex(item => item.id == category )].children}
+                    type="Subcategory"
+                    data={categoriesData[categoriesData.findIndex( item => item.id == category )].children}
                     lavel={2}
                     title="Подкатегория"
                     selectedInput={subcategory}
-                    filterAddPayload={{
+                    formProperties={{
                         level_filter: 2,
                         parent_filter: category
                     }}
@@ -331,7 +355,10 @@ export const Filters = memo(({page = '', filtersRef = null, visible = false, hid
                
             }
             { 
-              subcategory && !hiddenTeg && <FiltersTags page={page}/> 
+              category &&
+              subcategory && 
+              !hiddenTeg && 
+              <FiltersTags page={page}/> 
             }           
         </div>
     )

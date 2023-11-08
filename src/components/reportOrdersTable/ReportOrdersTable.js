@@ -81,6 +81,7 @@ export const ReportOrdersTable = memo(() => {
     const dateRange = useSelector(state => state.rangeCalendar.dateRange);
     const { 
         data = [], 
+        isFetching,
         isLoading, 
         isError, 
         error 
@@ -108,6 +109,12 @@ export const ReportOrdersTable = memo(() => {
                     </tr>
                 </thead>
                 <tbody>
+                    {
+                        data.length === 0 && 
+                        !isFetching &&
+                        !isError &&
+                        <tr><td width={200}>Заказов нет</td></tr>
+                    }
                     {
                         data.length > 0 &&
                         data.map(item => <TableItem {...item} key={item.id}/>)

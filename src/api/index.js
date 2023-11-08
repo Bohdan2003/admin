@@ -81,7 +81,8 @@ export const api = createApi({
       providesTags: [
         'Added', 
         'AddedItems',
-        'Cart'
+        'Cart',
+        'Eddit'
       ]
     }),   
     getLastAddedItems: builder.query({

@@ -9,7 +9,7 @@ import { ReactComponent as CancleIcon } from "../../assets/delete.svg";
 
 import "./filterForm.scss";
 
-export const FilterForm = ({fetch, firstItem = false, filterAddPayload}) => {
+export const FilterForm = ({fetch, firstItem = false, formProperties}) => {
     const [ createFilter, { isLoading, isError, error } ] = fetch;
     const [ visibleForm, setVisibleForm ] = useState(false);
 
@@ -35,7 +35,7 @@ export const FilterForm = ({fetch, firstItem = false, filterAddPayload}) => {
                     onSubmit={(values, {resetForm}) => {
                         createFilter({
                             name: values.name,
-                            ...filterAddPayload
+                            ...formProperties
                         }).unwrap()
                             .then(() => {
                                 setVisibleForm(false);
