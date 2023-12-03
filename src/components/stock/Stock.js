@@ -42,7 +42,7 @@ const Stock = () => {
             <div className="stock__top">
                 <div className="stock__head">
                     <FiltersMenu page={page} filtersRef={filtersRef} disabled={activeSection != "main"}/>
-                    <div>
+                    <div className="stock__box">
                         <StockBtn name='rate' text="Курс"/>
                         <StockBtn name='ends' text="Заканчивается"/>
                         <StockBtn name='add' text="Добавить"/>

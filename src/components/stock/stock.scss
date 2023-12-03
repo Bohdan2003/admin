@@ -13,12 +13,13 @@
         display: flex;
         justify-content: space-between;
     }
+    &__box{
+        display: flex;
+    }
     &__btn{
+        display: block;
         @extend %btn-with-img;
         margin-right: 26px;
-    }
-    &__btn:nth-child(2){
-        margin-right: 160px;
     }
     &__btn:last-child{
         margin-right: 0;
